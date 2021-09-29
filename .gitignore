@@ -6,3 +6,11 @@ results/
 testing/
 testing*
 *.pyc
+tester.config
+test*
+*HLCA*
+*sbatch
+.Rhistory
+*ss2*
+job_output/*
+*scratch*

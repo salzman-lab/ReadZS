@@ -7,24 +7,16 @@
 def summary_params = NfcoreSchema.paramsSummaryMap(workflow, params)
 
 // Validate input parameters
-WorkflowReadzs.initialise(params, log)
+//WorkflowReadzs.initialise(params, log)
 
 // TODO nf-core: Add all file path parameters for the pipeline to the list below
 // Check input path parameters to see if they exist
-def checkPathParamList = [ params.input, params.multiqc_config, params.fasta ]
-for (param in checkPathParamList) { if (param) { file(param, checkIfExists: true) } }
+//def checkPathParamList = [ params.input, params.multiqc_config, params.fasta ]
+//for (param in checkPathParamList) { if (param) { file(param, checkIfExists: true) } }
 
 // Check mandatory parameters
-if (params.input) { ch_input = file(params.input) } else { exit 1, 'Input samplesheet not specified!' }
+//if (params.input) { ch_input = file(params.input) } else { exit 1, 'Input samplesheet not specified!' }
 
-/*
-========================================================================================
-    CONFIG FILES
-========================================================================================
-*/
-
-ch_multiqc_config        = file("$projectDir/assets/multiqc_config.yaml", checkIfExists: true)
-ch_multiqc_custom_config = params.multiqc_config ? Channel.fromPath(params.multiqc_config) : Channel.empty()
 
 /*
 ========================================================================================
@@ -43,7 +35,11 @@ include { GET_SOFTWARE_VERSIONS } from '../modules/local/get_software_versions' 
 //
 // SUBWORKFLOW: Consisting of a mix of local and nf-core/modules
 //
-include { INPUT_CHECK } from '../subworkflows/local/input_check' addParams( options: [:] )
+include { ANNOTATE      } from '../subworkflows/local/annotate'
+include { CALCULATE     } from '../subworkflows/local/calculate'
+include { PLOT          } from '../subworkflows/local/plot'
+include { PREPROCESS    } from '../subworkflows/local/preprocess'
+include { SUBCLUSTER    } from '../subworkflows/local/subcluster'
 
 /*
 ========================================================================================
@@ -51,14 +47,12 @@ include { INPUT_CHECK } from '../subworkflows/local/input_check' addParams( opti
 ========================================================================================
 */
 
-def multiqc_options   = modules['multiqc']
-multiqc_options.args += params.multiqc_title ? Utils.joinModuleArgs(["--title \"$params.multiqc_title\""]) : ''
-
 //
 // MODULE: Installed directly from nf-core/modules
 //
-include { FASTQC  } from '../modules/nf-core/modules/fastqc/main'  addParams( options: modules['fastqc'] )
-include { MULTIQC } from '../modules/nf-core/modules/multiqc/main' addParams( options: multiqc_options   )
+include { PICARD_MARKDUPLICATES     } from '../modules/nf-core/modules/picard/markduplicates/main'
+include { SAMTOOLS_SORT             } from '../modules/nf-core/modules/samtools/sort/main'
+include { SAMTOOLS_INDEX            } from '../modules/nf-core/modules/samtools/index/main'
 
 /*
 ========================================================================================
@@ -71,67 +65,78 @@ def multiqc_report = []
 
 workflow READZS {
 
-    ch_software_versions = Channel.empty()
+    // Param checks
+    if (params.isSICILIAN) {
+        if (params.isCellranger) {
+            exit 1, "Invalid parameter input. SICILIAN output files should have `isCellranger = false`."
+        }
+    }
+    if (params.libType == 'SS2') {
+        if (params.isCellranger) {
+            exit 1, "Invalid parameter input. SS2 data should have `isCellranger = false`."
+        }
+    }
+    if (params.libType == '10X') {
+        if (!params.isCellranger && !params.isSICILIAN) {
+            exit 1, "Invalid parameter input. 10X data must either by cellranger or SICILIAN output."
+        }
+    }
+    if (params.plot_only && params.skip_plot) {
+        exit 1, "Invalid parameter input."
+    }
+    if (params.subcluster_only && params.skip_subcluster) {
+        exit 1, "Invalid parameter input."
+    }
+    if (params.plot_only && params.skip_plot) {
+        exit 1, "Invalid parameter input."
+    }
 
-    //
-    // SUBWORKFLOW: Read in samplesheet, validate and stage input files
-    //
-    INPUT_CHECK (
-        ch_input
+    PREPROCESS ()
+
+    CALCULATE (
+        PREPROCESS.out.mergeFilter
     )
 
-    //
-    // MODULE: Run FastQC
-    //
-    FASTQC (
-        INPUT_CHECK.out.reads
-    )
-    ch_software_versions = ch_software_versions.mix(FASTQC.out.version.first().ifEmpty(null))
+    if (!params.zscores_only) {
+        // Gather significant pvalues
+        if (params.plot_only) {
+            ch_all_pvals = Channel.fromPath(params.all_pvals_path)
+        } else if (params.subcluster_only) {
+            ch_counts = Channel.fromPath(params.counts_path)
+            ch_ann_pvals = Channel.fromPath(params.ann_pvals_path)
+        } else {
+            pval_file_list = CALCULATE.out.pval_file_list
 
-    //
-    // MODULE: Pipeline reporting
-    //
-    ch_software_versions
-        .map { it -> if (it) [ it.baseName, it ] }
-        .groupTuple()
-        .map { it[1][0] }
-        .flatten()
-        .collect()
-        .set { ch_software_versions }
+            // Annotate windows file
+            ANNOTATE (
+                pval_file_list
+            )
 
-    GET_SOFTWARE_VERSIONS (
-        ch_software_versions.map { it }.collect()
-    )
+            // Init channels for downstream analysis
+            ch_counts = CALCULATE.out.counts
+            ch_all_pvals = ANNOTATE.out.all_pvals
+            ch_ann_pvals = ANNOTATE.out.ann_pvals
+        }
 
-    //
-    // MODULE: MultiQC
-    //
-    workflow_summary    = WorkflowReadzs.paramsSummaryMultiqc(workflow, summary_params)
-    ch_workflow_summary = Channel.value(workflow_summary)
+        // Plot
+        if (!params.skip_plot || params.plot_only) {
+            resultsDir = "${launchDir}/${params.outdir}"
+            PLOT (
+                ch_all_pvals,
+                resultsDir
+            )
+        }
 
-    ch_multiqc_files = Channel.empty()
-    ch_multiqc_files = ch_multiqc_files.mix(Channel.from(ch_multiqc_config))
-    ch_multiqc_files = ch_multiqc_files.mix(ch_multiqc_custom_config.collect().ifEmpty([]))
-    ch_multiqc_files = ch_multiqc_files.mix(ch_workflow_summary.collectFile(name: 'workflow_summary_mqc.yaml'))
-    ch_multiqc_files = ch_multiqc_files.mix(GET_SOFTWARE_VERSIONS.out.yaml.collect())
-    ch_multiqc_files = ch_multiqc_files.mix(FASTQC.out.zip.collect{it[1]}.ifEmpty([]))
+        // Subcluster
+        if (!params.skip_subcluster || params.subcluster_only) {
+            SUBCLUSTER (
+                ch_counts,
+                ch_ann_pvals
+            )
+        }
 
-    MULTIQC (
-        ch_multiqc_files.collect()
-    )
-    multiqc_report       = MULTIQC.out.report.toList()
-    ch_software_versions = ch_software_versions.mix(MULTIQC.out.version.ifEmpty(null))
-}
+    }
 
-/*
-========================================================================================
-    COMPLETION EMAIL AND SUMMARY
-========================================================================================
-*/
-
-workflow.onComplete {
-    NfcoreTemplate.email(workflow, params, summary_params, projectDir, log, multiqc_report)
-    NfcoreTemplate.summary(workflow, params, log)
 }
 
 /*
