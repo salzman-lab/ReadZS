@@ -1,7 +1,13 @@
 #!/usr/bin/env Rscript
 
-library(tidyr)
-library(data.table)
+if (!require("data.table")) {
+  install.packages("data.table", dependencies = TRUE, repos = "http://cran.us.r-project.org")
+  library(data.table)
+}
+if (!require("tidyr")) {
+  install.packages("tidyr", dependencies = TRUE, repos = "http://cran.us.r-project.org")
+  library(tidyr)
+}
 
 args <- commandArgs(TRUE)
 all_pvals <- args[1]

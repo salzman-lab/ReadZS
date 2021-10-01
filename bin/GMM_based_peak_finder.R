@@ -1,11 +1,27 @@
 #!/usr/bin/env Rscript
 
-library(data.table)
-library(mclust)
-library(SamSPECTRAL)
-library(inflection)
-library(R.utils)
+if (!require("data.table")) {
+  install.packages("data.table", dependencies = TRUE, repos = "http://cran.us.r-project.org")
+  library(data.table)
+}
+if (!require("mclust")) {
+  install.packages("mclust", dependencies = TRUE, repos = "http://cran.us.r-project.org")
+  library(mclust)
+}
 
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+BiocManager::install("SamSPECTRAL")
+library(SamSPECTRAL)
+
+if (!require("inflection")) {
+  install.packages("inflection", dependencies = TRUE, repos = "http://cran.us.r-project.org")
+  library(inflection)
+}
+if (!require("R.utils")) {
+  install.packages("R.utils", dependencies = TRUE, repos = "http://cran.us.r-project.org")
+  library(R.utils)
+}
 
 args = commandArgs(trailingOnly = TRUE)
 position_count_file <- args[1]
