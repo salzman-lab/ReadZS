@@ -93,7 +93,7 @@ By default, these boolean parameters are all `false`, in order to run every step
 | (`--subcluster_only`) `ann_pvals_path`        | Path to ann_pvals file. | *home/results/`results/annotated_files/${runName}`_ann_pvals.txt* |
 
 ## File Descriptions
-### `input`
+#### `input`
 The samplesheet should be comma-delimited(no spaces after the comma), with no header.
 
 If `useChannels = true`, the file will have 3 columns:
@@ -105,7 +105,7 @@ If `useChannels = false`, the file will have 2 columns:
 * file identifier (i.e. *Tumor5_bladder_L001*)
 * path to bam file (i.e. *data/Tumor5_bladder_001.bam*)
 
-### `metadata`
+#### `metadata`
 This file should contain the following columns:
 * cell_id
     * Cell identification column, with each row structured as "${channel}_barcode"
@@ -138,7 +138,7 @@ This file should contain the following columns:
     * `results/${runName}/plots/*.png`
         * Read distributions of the top 2 and bottom ontologies of each significant window, as ranked by effect size
 
-### `results/${runName}/signif_medians/${runName}_*_medians_*.txt`
+#### `results/${runName}/signif_medians/${runName}_*_medians_*.txt`
 | Field      | Description |
 | ----------- | ----------- |
 | `window`                           | Stranded window from genome, as created by `windowsFile`|
@@ -151,7 +151,7 @@ This file should contain the following columns:
 | `significant`                      | Is `perm_p_val` signficant|
 | `medians_range`                    | Range of median z-scores for all ontologies in a window     |
 
-### `results/${runName}/peaks/${runName}_${peak_method}_peaks.tsv`
+#### `results/${runName}/peaks/${runName}_${peak_method}_peaks.tsv`
 | Field      | Description |
 | ----------- | ----------- |
 | `window`                           | Significant window, as ranked by effect size|
