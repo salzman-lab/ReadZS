@@ -94,7 +94,7 @@ workflow READZS {
     PREPROCESS ()
 
     CALCULATE (
-        PREPROCESS.out.mergeFilter
+        PREPROCESS.out.filter
     )
 
     if (!params.zscores_only) {

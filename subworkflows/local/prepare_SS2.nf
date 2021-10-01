@@ -4,6 +4,7 @@ include { PICARD_MARKDUPLICATES   } from '../../modules/nf-core/modules/picard/m
 include { FILTER_BAM_10X          } from '../../modules/local/filter_bam_10X'
 include { FILTER_BAM_SS2          } from '../../modules/local/filter_bam_SS2'
 include { MERGE_FILTERED          } from '../../modules/local/merge_filtered'
+include { PICARD          } from '../../modules/local/picard'
 
 workflow PREPARE_SS2 {
     take:
@@ -12,13 +13,13 @@ workflow PREPARE_SS2 {
     main:
 
     // Step 1: Remove duplicates
-    PICARD_MARKDUPLICATES (
+    PICARD (
         ch_input,
         params.picard
     )
 
     SAMTOOLS_INDEX (
-        PICARD_MARKDUPLICATES.out.bam_tuple
+        PICARD.out.bam_tuple
     )
 
     // Step 2: Filter bams
@@ -29,17 +30,7 @@ workflow PREPARE_SS2 {
         params.libType
     )
 
-    // Step 3: Gather outputs and group by: "input"
-    channel_merge_list = FILTER_BAM_SS2.out.filter
-        .flatten()
-        .collectFile { id, files ->
-            [
-                id,
-                files.collect{ it.toString() }.join('\n') + '\n'
-            ]
-        }
-
     emit:
-    channel_merge_list = channel_merge_list
+    filter = FILTER_BAM_SS2.out.filter
 
 }

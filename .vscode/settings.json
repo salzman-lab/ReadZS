@@ -1,0 +1,7 @@
+{
+    "files.exclude": {
+        ".nextflow*": true,
+        "*log": true,
+        "work/**": true
+    }
+}

@@ -1,5 +1,6 @@
 process MERGE {
   tag "${basename}"
+  label 'process_low'
 
   publishDir "${params.outdir}/counts", mode: 'copy'
 

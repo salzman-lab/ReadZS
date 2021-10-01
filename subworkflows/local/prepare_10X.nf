@@ -50,7 +50,12 @@ workflow PREPARE_10X {
             ]
         }
 
+    // Step 4: Merge grouped files
+    MERGE_FILTERED (
+        channel_merge_list
+    )
+
     emit:
-    channel_merge_list = channel_merge_list
+    filter = MERGE_FILTERED.out.filter
 
 }

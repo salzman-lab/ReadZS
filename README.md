@@ -28,7 +28,7 @@ The pipeline is built using [Nextflow](https://www.nextflow.io), a workflow tool
 
 1. Filter and quantify read enrichment from bam files
 2. Calculate the ReadZS (read z-score) for single cells across genomic bins
-3. Downstream analyses including:
+3. Downstream analyses
     1. Aggregate the ReadZS along cell-type annotations and identify windows of interest
     2. Plot read distributions for cell-types in windows of interest
     3. Perform GMM-based subclustering to identify peaks

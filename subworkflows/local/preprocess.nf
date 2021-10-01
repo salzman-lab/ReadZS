@@ -43,20 +43,15 @@ workflow PREPROCESS {
             ch_input,
             ch_chrs
         )
-        channel_merge_list = PREPARE_10X.out.channel_merge_list
+        ch_filter = PREPARE_10X.out.filter
     } else if (params.libType == "SS2") {
         PREPARE_SS2 (
             ch_input
         )
-        channel_merge_list = PREPARE_SS2.out.channel_merge_list
+        ch_filter = PREPARE_SS2.out.filter
     }
 
-    // Step 4: Merge gruped files
-    MERGE_FILTERED (
-        channel_merge_list
-    )
-
     emit:
-    mergeFilter = MERGE_FILTERED.out.merged
+    filter = ch_filter
 
 }

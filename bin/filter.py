@@ -23,6 +23,14 @@ def pass_filter(read):
     if cigar == [(0, read_length)] and mq == 255 and flag in [0, 16, 1024, 1040]:  # 1024 and 1040 to allow reads marked as duplicates
         return True
 
+def pass_filter_lenient(read):
+    cigar = read.cigar
+    mq = read.mapping_quality
+    read_length = read.query_length
+    flag = read.flag
+    if cigar == [(0, read_length)] and mq == 255:  # 1024 and 1040 to allow reads marked as duplicates
+        return True
+
 def has_barcode_tags(read):
     if read.has_tag("CB") and read.has_tag("UB"):
         return True
@@ -84,13 +92,13 @@ def filter_10X(inputChannel, chrName, bamName, bam_file, isSICILIAN, isCellrange
     minus.close()
     return None
 
-def filter_SS2(inputChannel, bamName, bam_file):
-    outfile = inputChannel + "-" + bamName + ".filter"
+def filter_SS2(inputChannel, bamName, bam_file, isCellranger):
+    outfile = bamName + ".filter"
     out = open(outfile, "w")
 
     for read in bam_file:
-        if pass_filter(read):
-            chr, position, strand = get_read_info(read, bam_file)
+        if pass_filter_lenient(read):
+            chr, position, strand = get_read_info(read, bam_file, isCellranger)
             write_out_SS2(inputChannel, strand, chr, position, out)
     out.close()
     return None
@@ -125,7 +133,7 @@ def main():
             chrName = args.chr
         filter_10X(inputChannel, chrName, bamName, bam_file, isSICILIAN, isCellranger)
     elif libType == "SS2":
-        filter_SS2(inputChannel, bamName, bam_file)
+        filter_SS2(inputChannel, bamName, bam_file, isCellranger)
 
 main()
 

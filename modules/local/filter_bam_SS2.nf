@@ -1,5 +1,6 @@
 process FILTER_BAM_SS2 {
   tag "${bamFileID}"
+  label 'process_medium'
 
   input:
   tuple val(inputChannel), val(bamFileID), path(bam), path(bai)
@@ -13,7 +14,7 @@ process FILTER_BAM_SS2 {
   script:
   """
   filter.py \\
-    --input_bam <(samtools view -b ${bam} ${chr} ) \\
+    --input_bam ${bam} \\
     --isSICILIAN ${isSICILIAN} \\
     --isCellranger ${isCellranger} \\
     --libType ${libType} \\

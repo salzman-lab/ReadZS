@@ -14,3 +14,4 @@ test*
 *ss2*
 job_output/*
 *scratch*
+modules/nf-core/modules/fastqc/functions.nf

@@ -1,6 +1,7 @@
 process PVAL_LIST {
   publishDir "${params.outdir}",
     mode: 'copy'
+  label 'process_low'
 
   input:
   path pval_file_list

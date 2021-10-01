@@ -2,6 +2,8 @@ process FIND_PEAKS {
   publishDir "${params.outdir}/peaks",
     mode: 'copy'
 
+  label 'process_medium'
+
   input:
   path all_counts
   path ann_pvals

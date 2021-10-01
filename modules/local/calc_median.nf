@@ -1,6 +1,8 @@
 process CALC_MEDIAN {
   tag "${basename}"
 
+  label 'process_medium'
+
   publishDir "${params.outdir}/medians",
     pattern: "*medians*",
     mode: 'copy'

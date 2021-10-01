@@ -1,5 +1,6 @@
 process COUNT {
   tag "${basename}"
+  label 'process_medium'
 
   input:
   path filtered

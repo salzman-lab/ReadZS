@@ -2,6 +2,7 @@ process CALC_ZSCORE {
   tag "${basename}"
   publishDir "${params.outdir}/zscore",
     mode: 'copy'
+  label 'process_medium'
 
   input:
   path count
