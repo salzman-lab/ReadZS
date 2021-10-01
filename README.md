@@ -88,7 +88,7 @@ By default, these boolean parameters are all `false`, in order to run every step
 | `skip_subcluster`       | Run all steps of pipeline, except for subclustering/peak calling. | If `true`, `subcluster_only` cannot be `true`  |
 | `plot_only`             | If all steps up to median calculation have been previously performed, only perform plot generation of read distributions. | `all_pvals_path` , `resultsDir`|
 | `subcluster_only`       | If all steps up to annotation steps have been previously performed, only perform subclustering/peak calling.| `counts_path`, `ann_pvals_path`|
-| (`--plot_only`) `all_pvals_path`        | Path to all_pvals file. | *home/results/`results/annotated_files/${runName}`_all_pvals.txt* |
+| (`--plot_only`) `all_pvals_path`        | Path to all_pvals file, containing a `windows` column. | *home/results/`results/annotated_files/${runName}`_all_pvals.txt* |
 | (`--plot_only`) `resultsDir`            | Path to results directory of previous run. | *home/results*  |
 | (`--subcluster_only`) `counts_path`           | Path to results directory for counts files. | *home/results/counts* |
 | (`--subcluster_only`) `ann_pvals_path`        | Path to ann_pvals file. | *home/results/`results/annotated_files/${runName}`_ann_pvals.txt* |
