@@ -77,6 +77,7 @@ These default values can be modified to suit the needs of your data.
 | `minCtsPerCell`         | Minimum counts per cell for a window required to include this cell in calculating medians for that window-ontology| *10*  |
 | `nPermutations`         | Number of permutations to be used in median calculation | *1000* |
 | `nGenesToPlot`          | Number of top windows to generate read distribution histograms for| *20* |
+| `peak_method`           | Subclustering method for calling peaks | `knee`, `max`  |
 
 ## Pipeline Parameters
 By default, these boolean parameters are all `false`, in order to run every step of the pipeline. These parameters can be used to modify which steps are run, or to re-run analysis steps on previously completed steps.
