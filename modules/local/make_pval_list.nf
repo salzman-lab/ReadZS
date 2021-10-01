@@ -1,5 +1,5 @@
 process PVAL_LIST {
-  publishDir "${params.outdir}",
+  publishDir "${params.outdir}/annotated_files",
     mode: 'copy'
   label 'process_low'
 

@@ -6,7 +6,7 @@ process CALC_MEDIAN {
   publishDir "${params.outdir}/medians",
     pattern: "*medians*",
     mode: 'copy'
-  publishDir "${params.outdir}/signif_pvalues",
+  publishDir "${params.outdir}/signif_medians",
     pattern: "*signifPvalues*",
         mode: 'copy'
 

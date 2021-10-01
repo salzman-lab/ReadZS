@@ -14,7 +14,7 @@
 [![Follow on Twitter](http://img.shields.io/badge/twitter-%40nf__core-1DA1F2?labelColor=000000&logo=twitter)](https://twitter.com/nf_core)
 [![Watch on YouTube](http://img.shields.io/badge/youtube-nf--core-FF0000?labelColor=000000&logo=youtube)](https://www.youtube.com/c/nf-core)
 
-## Introduction
+# Introduction
 
 <!-- TODO nf-core: Write a 1-2 sentence summary of what data the pipeline is for and what it does -->
 **salzmanlab/readzs** is a bioinformatics best-practice analysis pipeline for The Read Z-score (ReadZS): a metric that summarizes the transcriptional state of a gene in a single cell.
@@ -34,16 +34,30 @@ The pipeline is built using [Nextflow](https://www.nextflow.io), a workflow tool
     3. Perform GMM-based subclustering to identify peaks
     4. Annotate peaks with distances to annotated features
 
-## Quick Start
+# Quick Start
+1. Install [`nextflow`](https://nf-co.re/usage/installation) (`>=20.04.0`) and [`conda`](https://docs.conda.io/en/latest/).
 
+2. Create conda environment and activate.
+    ```bash
+    conda env create --name spliz_env --file=environment.yml
+    conda activate spliz_env
+    ```
+3. Modify config file with data-specific parameters, using `conf/test.config` as a template. You may need to modify the [executor scope](https://www.nextflow.io/docs/latest/executor.html) in the config file, in accordance to your compute needs.
 
+4. Run the pipeline.
+    ```bash
+    nextflow run salzmanlab/readzs \
+        -r main \
+        -latest \
+        -c YOUR_CONFIG_FILE.conf
+    ```
 
-## Input Arguments
+# Input Arguments
 
 | Argument                | Description     |Example Usage  |
 | -----------             | -----------     |-----------|
 | `runName`               | Descriptive name for ReadZS run, used in the final output files |*Tumor_5* |
-| `input`      | Input samplesheet in csv format, format detailed below | `Tumor_5_samplesheet.csv` |
+| `input`      | Input samplesheet in csv format, format described below | `Tumor_5_samplesheet.csv` |
 | `useChannels`            | `true` if the same samples were split across multiple lanes with barcode overlap between samples | `true`, `false` |
 | `isSICILIAN`            | If the input bam files are output from [SICILIAN](https://github.com/salzmanlab/SICILIAN)| `true`, `false` |
 | `isCellranger`          | `true` if input data is output from Cellranger | `true`, `false` |
@@ -55,6 +69,7 @@ The pipeline is built using [Nextflow](https://www.nextflow.io), a workflow tool
 | `picard`                | Location of [Picard](https://broadinstitute.github.io/picard/) executable file | */home/software/picard.jar* |
 
 ## Default Parameters
+These default values can be modified to suit the needs of your data.
 | Argument                | Description     | Default Value  |
 | -----------             | -----------     |-----------|
 | `binSize`               | Size of genomic bins, used to calculate z-scores | *5000*  |
@@ -72,10 +87,79 @@ By default, these boolean parameters are all `false`, in order to run every step
 | `skip_subcluster`       | Run all steps of pipeline, except for subclustering/peak calling. | If `true`, `subcluster_only` cannot be `true`  |
 | `plot_only`             | If all steps up to median calculation have been previously performed, only perform plot generation of read distributions. | `all_pvals_path` , `resultsDir`|
 | `subcluster_only`       | If all steps up to annotation steps have been previously performed, only perform subclustering/peak calling.| `counts_path`, `ann_pvals_path`|
-| (`--plot_only`) `all_pvals_path`        | Path to all_pvals file. | *home/results/`${runName}`_all_pvals.txt* |
+| (`--plot_only`) `all_pvals_path`        | Path to all_pvals file. | *home/results/`results/annotated_files/${runName}`_all_pvals.txt* |
 | (`--plot_only`) `resultsDir`            | Path to results directory of previous run. | *home/results*  |
 | (`--subcluster_only`) `counts_path`           | Path to results directory for counts files. | *home/results/counts* |
-| (`--subcluster_only`) `ann_pvals_path`        | Path to ann_pvals file. | *home/results/`${runName}`_nn_pvals.txt* |
+| (`--subcluster_only`) `ann_pvals_path`        | Path to ann_pvals file. | *home/results/`results/annotated_files/${runName}`_ann_pvals.txt* |
+
+## File Descriptions
+### `input`
+The samplesheet should be comma-delimited(no spaces after the comma), with no header.
+
+If `useChannels = true`, the file will have 3 columns:
+* channel name (i.e. *Tumor5_bladder*)
+* file identifier (i.e. *Tumor5_bladder_L001*)
+* path to bam file (i.e. *data/Tumor5_bladder_001.bam*)
+
+If `useChannels = false`, the file will have 2 columns:
+* file identifier (i.e. *Tumor5_bladder_L001*)
+* path to bam file (i.e. *data/Tumor5_bladder_001.bam*)
+
+### `metadata`
+This file should contain the following columns:
+* cell_id
+    * Cell identification column, with each row structured as "${channel}_barcode"
+    * If `useChannels = false`, each row should be structured as "${file_identifier}_barcode"
+    * Example cell_id value:
+        * "Tumor5_AACCATGCAGCTCGCA"
+* Metadata columns used to define the ontology (grouping for which the median z-score will be calculated)
+    * Examples:
+        * tissue, compartment, annotation
+        * ontology = "lung_immune_macrophage"
+
+# Output
+## Files
+* Significant windows
+    * `results/${runName}/medians/${runName}_*_medians_*.txt`
+        * List of all median values for cells in window-ontologies passing filter
+    * `results/${runName}/signif_medians/${runName}_*_medians_*.txt`
+        * List of significant median values for all cells in window-ontologies passing filter
+    * `results/${runName}/annotated_files/${runName}_all_pvals.txt`
+        * All windows, annotated with `annotation_bed`
+    * `results/${runName}/annotated_files/${runName}_ann_pvals.txt`
+        * All significant windows, annotated with `annotation_bed` and ranked by effect size
+        * Rankings from this file are used to rank plotted windows and windows for calling peaks
+    * `results/${runName}/annotated_files/annotated_windows.file`
+        * Bed file of windows of size = `binSize`, with each window annotated with `annotation_bed`
+* Peaks
+    * `results/${runName}/peaks/${runName}_${peak_method}_peaks.tsv`
+        * Peaks called for each significant window, with one peak per line
+* Plots
+    * `results/${runName}/plots/*.png`
+        * Read distributions of the top 2 and bottom ontologies of each significant window, as ranked by effect size
+
+### `results/${runName}/signif_medians/${runName}_*_medians_*.txt`
+| Field      | Description |
+| ----------- | ----------- |
+| `window`                           | Stranded window from genome, as created by `windowsFile`|
+| `ontology`                         | Metadata grouping, as created by `ontologyCols` |
+| `sum_counts_per_window_per_ont`    | Total read counts per window-ontology |
+| `med_counts_per_window_per_ont`    | Median read counts per window-ontology |
+| `median_z_scaled`                  | Median z-scaled value of the window-ontology |
+| `chi2_p_val`                       | Chi<sup>2</sup> of `median_z_scaled` |
+| `perm_p_val`                       | Permutation p-value of `median_z_scaled`       |
+| `significant`                      | Is `perm_p_val` signficant|
+| `medians_range`                    | Range of median z-scores for all ontologies in a window     |
+
+### `results/${runName}/peaks/${runName}_${peak_method}_peaks.tsv`
+| Field      | Description |
+| ----------- | ----------- |
+| `window`                           | Significant window, as ranked by effect size|
+| `num_peaks`                         | Number of peaks per window |
+| `peak_pos`    | Peak position|
+| `comp_prob`    | Component probability  |
+| `ICL_vec`                  | The vector of ICL criterion values for each number if components |
+
 ## Credits
 
 nf-core/readzs was originally written by the Salzman Lab.
