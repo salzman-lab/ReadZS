@@ -39,8 +39,8 @@ The pipeline is built using [Nextflow](https://www.nextflow.io), a workflow tool
 
 2. Create conda environment and activate.
     ```bash
-    conda env create --name spliz_env --file=environment.yml
-    conda activate spliz_env
+    conda env create --name readzs_env --file=environment.yml
+    conda activate readzs_env
     ```
 3. Modify config file with data-specific parameters, using `conf/test.config` as a template. You may need to modify the [executor scope](https://www.nextflow.io/docs/latest/executor.html) in the config file, in accordance to your compute needs.
 
