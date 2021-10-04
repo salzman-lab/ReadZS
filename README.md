@@ -96,10 +96,10 @@ By default, these boolean parameters are all `false`, in order to run every step
 | `skip_subcluster`       | Run all steps of pipeline, except for subclustering/peak calling. | If `true`, `subcluster_only` cannot be `true`  |
 | `plot_only`             | If all steps up to median calculation have been previously performed, only perform plot generation of read distributions. | `all_pvals_path` , `resultsDir`|
 | `subcluster_only`       | If all steps up to annotation steps have been previously performed, only perform subclustering/peak calling.| `counts_path`, `ann_pvals_path`|
-| (`--plot_only`) `all_pvals_path`        | Path to all_pvals file, containing a `windows` column. | *home/results/`results/annotated_files/${runName}`_all_pvals.txt* |
+| (`--plot_only`) `all_pvals_path`        | Path to all_pvals file, containing a `windows` column. | *home/results/results/annotated_files/`${runName}`_all_pvals.txt* |
 | (`--plot_only`) `resultsDir`            | Path to results directory of previous run. | *home/results*  |
 | (`--subcluster_only`) `counts_path`           | Path to results directory for counts files. | *home/results/counts* |
-| (`--subcluster_only`) `ann_pvals_path`        | Path to ann_pvals file. | *home/results/`results/annotated_files/${runName}`_ann_pvals.txt* |
+| (`--subcluster_only`) `ann_pvals_path`        | Path to ann_pvals file. | *home/results/results/annotated_files/`${runName}`_ann_pvals.txt* |
 
 ## File Descriptions
 #### `input`
@@ -192,6 +192,12 @@ For further information or help, don't hesitate to get in touch on the [Slack `#
 An extensive list of references for the tools used by the pipeline can be found in the [`CITATIONS.md`](CITATIONS.md) file.
 
 You can cite the `nf-core` publication as follows:
+
+> **ReadZS detects developmentally regulated RNA processing programs in single cell RNA-seq and defines subpopulations independent of gene expression**
+>
+> Elisabeth Meyer, Roozbeh Dehghannasiri, Kaitlin Chaung, Julia Salzman.
+>
+> _bioRxiv_ 2021 Oct 01. doi: [10.1101/2021.09.29.462469](https://doi.org/10.1101/2021.09.29.462469).
 
 > **The nf-core framework for community-curated bioinformatics pipelines.**
 >
