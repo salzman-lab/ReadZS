@@ -1,5 +1,4 @@
 process ANNOTATE_WINDOWS {
-  conda 'bedtools'
   label 'process_medium'
   publishDir "${params.outdir}/annotated_files",
     mode: 'copy'
