@@ -13,6 +13,6 @@ process PICARD {
     outputFile = "${bamFileID}.dedup"
     metrics = "${bamFileID}.metrics"
     """
-    java -jar ${picard} MarkDuplicates -I ${bam} -O ${outputFile} -M ${metrics} --QUIET true
+    picard MarkDuplicates -I ${bam} -O ${outputFile} -M ${metrics} --QUIET true
     """
 }

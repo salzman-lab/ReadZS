@@ -66,7 +66,6 @@ The pipeline is built using [Nextflow](https://www.nextflow.io), a workflow tool
 | `chr_lengths`           | Two-column, tab-delimited file containing chromosome names in the first column and chromosome lengths in the second column. Chromosome names must match those in bam files. | */home/refs/human.chrs* |
 | `gff`                   | Location of genome GFF file, used for plotting; can be obtained from [GENCODE](https://www.gencodegenes.org/human/) | */home/refs/humanv37.gff* |
 | `annotation_bed`        | BED-formatted file, used to annotate the windows, e.g. "refFlat" table of genes in BED format obtained from [UCSC Table Browser](https://genome.ucsc.edu/cgi-bin/hgTables)| */home/refs/hg38_genes.bed*  |
-| `picard`                | Location of [Picard](https://broadinstitute.github.io/picard/) executable file | */home/software/picard.jar* |
 
 ## Default Parameters
 These default values can be modified to suit the needs of your data.
