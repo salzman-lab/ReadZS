@@ -72,7 +72,7 @@ The pipeline is built using [Nextflow](https://www.nextflow.io), a workflow tool
 | `useChannels`            | `true` if the same samples were split across multiple lanes with barcode overlap between samples | `true`, `false` |
 | `isSICILIAN`            | If the input bam files are output from [SICILIAN](https://github.com/salzmanlab/SICILIAN)| `true`, `false` |
 | `isCellranger`          | `true` if input data is output from Cellranger | `true`, `false` |
-| `ontologyCols	`         | Double-encapsulated list string describing the `metadata` columns that will create the cell-type variable | "'tissue, compartment, annotation'" |
+| `ontologyCols	`         | Double-encapsulated list string describing the `metadata` columns that will create the cell-type variable | *"'tissue, compartment, annotation'"* |
 | `metadata`              | Path to cell-type annotation file, described below | `metadata_Tumor5.tsv` |
 | `chr_lengths`           | Two-column, tab-delimited file containing chromosome names in the first column and chromosome lengths in the second column. Chromosome names must match those in bam files. | */home/refs/human.chrs* |
 | `gff`                   | Location of genome GFF file, used for plotting; can be obtained from [GENCODE](https://www.gencodegenes.org/human/) | */home/refs/humanv37.gff* |
@@ -87,7 +87,7 @@ These default values can be modified to suit the needs of your data.
 | `minCtsPerCell`         | Minimum counts per cell for a window required to include this cell in calculating medians for that window-ontology| *10*  |
 | `nPermutations`         | Number of permutations to be used in median calculation | *1000* |
 | `nGenesToPlot`          | Number of top windows to generate read distribution histograms for| *20* |
-| `peak_method`           | Subclustering method for calling peaks | `knee`, `max`  |
+| `peak_method`           | Subclustering method for calling peaks, options: `knee`, `max` | `knee` |
 
 ## Pipeline Parameters
 By default, these boolean parameters are all `false`, in order to run every step of the pipeline. These parameters can be used to modify which steps are run, or to re-run analysis steps on previously completed steps.
