@@ -51,11 +51,11 @@ The pipeline is built using [Nextflow](https://www.nextflow.io), a workflow tool
 
     [Sherlock](https://www.sherlock.stanford.edu/) users should use the `sherlock` profile:
 
-        ```
+
         nextflow run salzmanlab/readzs \
             -latest \
             -profile conda,small_test_data,sherlock
-        ```
+
 
 
 4. To run on other datasets, modify a config file with data-specific parameters, using `conf/test.config` as a template. You may need to modify the [executor scope](https://www.nextflow.io/docs/latest/executor.html) in the config file, in accordance to your compute needs.
