@@ -5,7 +5,10 @@ if (!require("data.table")) {
 }
 if (!requireNamespace("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
-BiocManager::install("Gviz")
+
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    BiocManager::install("Gviz")
+
 library(Gviz)
 
 args <- commandArgs(TRUE)

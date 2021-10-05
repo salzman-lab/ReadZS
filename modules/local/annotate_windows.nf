@@ -3,6 +3,7 @@ process ANNOTATE_WINDOWS {
   publishDir "${params.outdir}/annotated_files",
     mode: 'copy'
 
+  conda 'bioconda::bedtools=2.30.0'
   input:
   val isCellranger
   path chr_lengths

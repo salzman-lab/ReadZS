@@ -10,7 +10,7 @@ process SAMTOOLS_INDEX {
     publishDir "${params.outdir}/bams",
         mode: params.publish_dir_mode
 
-    conda (params.enable_conda ? 'bioconda::samtools=1.13' : null)
+    conda 'bioconda::samtools=1.13'
     if (workflow.containerEngine == 'singularity' && !params.singularity_pull_docker_container) {
         container "https://depot.galaxyproject.org/singularity/samtools:1.13--h8c37831_0"
     } else {

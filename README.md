@@ -39,16 +39,11 @@ The pipeline is built using [Nextflow](https://www.nextflow.io), a workflow tool
 # Quick Start
 1. Install [`nextflow`](https://nf-co.re/usage/installation) (`>=20.04.0`) and [`conda`](https://docs.conda.io/en/latest/).
 
-2. Create conda environment and activate.
-    ```bash
-    conda env create --name readzs_env --file=environment.yml
-    conda activate readzs_env
-    ```
-3. Run the pipeline on test data.
+2. Run the pipeline on test data.
     ```bash
     nextflow run salzmanlab/readzs \
         -latest \
-        -profile conda,small_test_data
+        -profile small_test_data
     ```
 
     [Sherlock](https://www.sherlock.stanford.edu/) users should use the `sherlock` profile:
@@ -56,11 +51,9 @@ The pipeline is built using [Nextflow](https://www.nextflow.io), a workflow tool
 
         nextflow run salzmanlab/readzs \
             -latest \
-            -profile conda,small_test_data,sherlock
+            -profile small_test_data,sherlock
 
-
-
-4. To run on other datasets, modify a config file with data-specific parameters, using `conf/test.config` as a template. You may need to modify the [executor scope](https://www.nextflow.io/docs/latest/executor.html) in the config file, in accordance to your compute needs.
+3. To run on other datasets, modify a config file with data-specific parameters, using `conf/test.config` as a template. You may need to modify the [executor scope](https://www.nextflow.io/docs/latest/executor.html) in the config file, in accordance to your compute needs.
 
 
 # Input Arguments

@@ -2,6 +2,8 @@ process FILTER_BAM_10X {
   tag "${chr}, ${bamFileID}"
   label 'process_medium'
 
+  conda 'pysam pandas'
+
   input:
   tuple val(inputChannel), val(bamFileID), path(bam), path(bai)
   val isSICILIAN
