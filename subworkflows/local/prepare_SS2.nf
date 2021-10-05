@@ -14,8 +14,7 @@ workflow PREPARE_SS2 {
 
     // Step 1: Remove duplicates
     PICARD (
-        ch_input,
-        params.picard
+        ch_input
     )
 
     SAMTOOLS_INDEX (

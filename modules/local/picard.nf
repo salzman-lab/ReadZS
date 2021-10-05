@@ -6,7 +6,6 @@ process PICARD {
 
     input:
     tuple val(inputChannel), val(bamFileID), path(bam)
-    path picard
 
     output:
     tuple val(inputChannel), val(bamFileID), path("*dedup*"), emit: bam_tuple
