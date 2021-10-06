@@ -2,8 +2,6 @@ process PICARD {
     tag "${bamName}"
     label 'process_medium'
 
-    conda 'picard'
-
     input:
     tuple val(inputChannel), val(bamFileID), path(bam)
 
