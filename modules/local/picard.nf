@@ -2,6 +2,8 @@ process PICARD {
     tag "${bamName}"
     label 'process_medium'
 
+    conda 'bioconda::picard=2.26.2'
+
     input:
     tuple val(inputChannel), val(bamFileID), path(bam)
 
