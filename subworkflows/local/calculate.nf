@@ -45,15 +45,31 @@ workflow CALCULATE {
     CALC_ZSCORE (
         ch_counts,
         params.zscores_only,
-        params.metadata,
+        params.metadata
     )
+
+    if (params.libType == "SS2") {
+        zscores_file_list = CALC_ZSCORE.out.zscore
+            .collectFile { file ->
+                file.toString() + '\n'
+            }
+        // If smartseq2, merge all the counts files together before zscore calc.
+        MERGE (
+            zscores_file_list,
+            params.runName,
+            "${params.outdir}/zscore"
+        )
+        ch_zscore = MERGE.out.merged
+    } else {
+        ch_zscore = CALC_ZSCORE.out.zscore
+    }
 
     // Step 3: Caclulate significant medians
     if (params.zscores_only) {
         pval_file_list = Channel.empty()
     } else {
         CALC_MEDIAN (
-            CALC_ZSCORE.out.zscore,
+            ch_zscore,
             params.ontologyCols,
             params.minCellsPerWindowOnt,
             params.minCtsPerCell,

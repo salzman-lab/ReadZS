@@ -2,18 +2,19 @@ process MERGE {
   tag "${basename}"
   label 'process_low'
 
-  publishDir "${params.outdir}/counts", mode: 'copy'
+  publishDir "${params.publishDir}", mode: 'copy'
 
   input:
   path chr_merge_list
   val runName
+  path publishDir
 
   output:
-  path "*.count", emit: merged
+  path "*.txt", emit: merged
 
   script:
   basename = chr_merge_list.baseName
-  outputFile = "${runName}_${basename}.count"
+  outputFile = "${runName}_${basename}.txt"
   """
   rm -f ${outputFile}
   cat ${chr_merge_list} |
