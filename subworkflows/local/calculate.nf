@@ -15,9 +15,10 @@ workflow CALCULATE {
         params.binSize
     )
 
+
     // If 10X, merge files by chromosome
     if (params.libType == "10X"){
-        chr_merge_list = COUNT.out.count
+        count_merge_list = COUNT.out.count
             .map { file ->
                 def key = file.name.toString().tokenize('-')[1]
                 return tuple(key, file)
@@ -29,53 +30,36 @@ workflow CALCULATE {
                     files.collect{ it.toString() }.join('\n') + '\n'
                 ]
             }
-        resultsDir = "${launchDir}/${params.outdir}/counts"
-        MERGE (
-            chr_merge_list,
-            params.runName,
-            true,
-            resultsDir,
-            false
-        )
-        ch_counts = MERGE.out.merged
     } else if (params.libType == "SS2") {
         // If SS2, no need to merge.
-        ch_counts = COUNT.out.count
-    }
-
-    // Step 2: Calculate zscores
-    CALC_ZSCORE (
-        ch_counts,
-        params.zscores_only,
-        params.metadata
-    )
-
-    if (params.libType == "SS2") {
-        zscores_file_list = CALC_ZSCORE.out.zscore
+        count_merge_list = COUNT.out.count
             .collectFile { file ->
                 file.toString() + '\n'
             }
-        // If smartseq2, merge all the counts files together before zscore calc.
-        resultsDir = "${launchDir}/${params.outdir}/zscore"
-        MERGE (
-            zscores_file_list,
-            params.runName,
-            true,
-            resultsDir,
-            true
-        )
-        ch_zscore = MERGE.out.merged
-    } else {
-        // If 10X, no need to merge
-        ch_zscore = CALC_ZSCORE.out.zscore
     }
+
+    counts_resultsDir = "${launchDir}/${params.outdir}/counts"
+    MERGE (
+        count_merge_list,
+        params.runName,
+        true,
+        counts_resultsDir,
+        false
+    )
+
+    // Step 2: Calculate zscores
+    CALC_ZSCORE (
+        MERGE.out.merged,
+        params.zscores_only,
+        params.metadata
+    )
 
     // Step 3: Caclulate significant medians
     if (params.zscores_only) {
         pval_file_list = Channel.empty()
     } else {
         CALC_MEDIAN (
-            ch_zscore,
+            CALC_ZSCORE.out.zscore,
             params.ontologyCols,
             params.minCellsPerWindowOnt,
             params.minCtsPerCell,

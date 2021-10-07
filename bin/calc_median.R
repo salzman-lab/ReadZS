@@ -43,14 +43,13 @@ set.seed(42)
 ### ========================
 
 ## Read in table of Z scores
-z_table <- fread(input_file, header=F)
+z_table <- fread(input_file, header=T)
 
 ## Create ontology groupings based on columns in argument
 ontology_cols = unlist(strsplit(ontology_cols, ", "))
-col_names <- c('cell_id', 'chrom', 'read_strand', 'window', 'channel', 'z_scaled', 'count')
-col_names <- c(col_names, ontology_cols)
-
-names(z_table) <- col_names
+#col_names <- c('cell_id', 'chrom', 'read_strand', 'window', 'channel', 'z_scaled', 'count')
+#col_names <- c(col_names, ontology_cols)
+#names(z_table) <- col_names
 
 z_table[is.na(z_table)] <- "ANNOTATE_NA"
 z_table <- z_table %>% unite('ontology', c(all_of(ontology_cols)), sep="___", remove=FALSE)
