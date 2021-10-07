@@ -1,4 +1,4 @@
-process FIND_PEAKS {
+process CALL_PEAKS {
   publishDir "${params.outdir}/peaks",
     mode: 'copy'
 

@@ -35,11 +35,11 @@ include { GET_SOFTWARE_VERSIONS } from '../modules/local/get_software_versions' 
 //
 // SUBWORKFLOW: Consisting of a mix of local and nf-core/modules
 //
-include { SIGNIF_WINDOWS      } from '../subworkflows/local/signif_windows'
-include { CALCULATE     } from '../subworkflows/local/calculate'
-include { PLOT          } from '../subworkflows/local/plot'
-include { PREPROCESS    } from '../subworkflows/local/preprocess'
-include { SUBCLUSTER    } from '../subworkflows/local/subcluster'
+include { SIGNIF_WINDOWS    } from '../subworkflows/local/signif_windows'
+include { CALCULATE         } from '../subworkflows/local/calculate'
+include { PLOT              } from '../subworkflows/local/plot'
+include { PREPROCESS        } from '../subworkflows/local/preprocess'
+include { PEAKS             } from '../subworkflows/local/peaks'
 
 /*
 ========================================================================================
@@ -127,7 +127,7 @@ workflow READZS {
 
         // Subcluster
         if (!params.skip_subcluster || params.subcluster_only) {
-            SUBCLUSTER (
+            PEAKS (
                 ch_counts,
                 ch_ann_pvals
             )

@@ -1,7 +1,7 @@
-include { FIND_PEAKS    } from  '../../modules/local/find_peaks'
+include { CALL_PEAKS    } from  '../../modules/local/call_peaks'
 include { MERGE         } from  '../../modules/local/merge'
 
-workflow SUBCLUSTER {
+workflow PEAKS {
     take:
     ch_counts
     ann_pvals
@@ -25,7 +25,7 @@ workflow SUBCLUSTER {
 
 
     // STEP 1: GMM Peak finding
-    FIND_PEAKS (
+    CALL_PEAKS (
         ch_counts,
         ann_pvals,
         params.peak_method,
