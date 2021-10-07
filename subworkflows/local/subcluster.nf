@@ -7,23 +7,22 @@ workflow SUBCLUSTER {
     ann_pvals
 
     main:
-    // Step 0: Merge all counts if 10X
-    if (params.libType == '10X') {
-        counts_file_list = ch_counts
-        .collectFile (name: 'all_counts.txt') { file ->
-            file.toString() + '\n'
-        }
 
-        resultsDir = "${launchDir}/${params.outdir}/counts"
-        MERGE (
-            counts_file_list,
-            params.runName,
-            true,
-            resultsDir,
-            false
-        )
-        ch_counts = MERGE.out.merged
+    counts_file_list = ch_counts
+    .collectFile (name: 'all_counts.txt') { file ->
+        file.toString() + '\n'
     }
+
+    resultsDir = "${launchDir}/${params.outdir}/counts"
+    MERGE (
+        counts_file_list,
+        params.runName,
+        true,
+        resultsDir,
+        false
+    )
+    ch_counts = MERGE.out.merged
+
 
     // STEP 1: GMM Peak finding
     FIND_PEAKS (
