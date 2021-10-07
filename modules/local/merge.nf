@@ -2,12 +2,12 @@ process MERGE {
   tag "${basename}"
   label 'process_low'
 
-  publishDir "${publishDir}", mode: 'copy'
+  publishDir "${resultsDir}", mode: 'copy'
 
   input:
   path chr_merge_list
   val runName
-  path publishDir
+  path resultsDir
 
   output:
   path "*.txt", emit: merged
