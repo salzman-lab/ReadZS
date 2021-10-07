@@ -21,7 +21,7 @@ process MERGE_SPLIT {
   rm -f ${outputFile}
   cat ${chr_merge_list} |
       while read f; do
-      awk -v var=${runName} '{if(\$2 ~ /chr/) print >> var"_"$2".count"}' \$f
+      awk -v var=${runName} '{if(\$2 ~ /chr/) print >> var"_"\$2".count"}' \$f
       done
   """
 }
