@@ -2,7 +2,7 @@ process MERGE {
   tag "${basename}"
   label 'process_low'
 
-  publishDir "${params.publishDir}", mode: 'copy'
+  publishDir "${publishDir}", mode: 'copy'
 
   input:
   path chr_merge_list
