@@ -26,7 +26,7 @@ workflow CALCULATE {
                 return tuple(key, file)
             }
             .groupTuple()
-            .collectFile (name: "counts.txt") { id, files ->
+            .collectFile (name: 'all_counts.txt") { id, files ->
                 [
                     id,
                     files.collect{ it.toString() }.join('\n') + '\n'

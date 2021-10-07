@@ -44,7 +44,7 @@ workflow PREPARE_10X {
             return tuple(key, file)
         }
         .groupTuple()
-        .collectFile { id, files ->
+        .collectFile (name: 'filtered.bam') { id, files ->
             [
                 id,
                 files.collect{ it.toString() }.join('\n') + '\n'
