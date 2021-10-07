@@ -15,7 +15,6 @@ workflow CALCULATE {
         params.binSize
     )
 
-
     // If 10X, merge files by chromosome
     if (params.libType == "10X"){
         count_merge_list = COUNT.out.count
@@ -33,7 +32,7 @@ workflow CALCULATE {
     } else if (params.libType == "SS2") {
         // If SS2, no need to merge.
         count_merge_list = COUNT.out.count
-            .collectFile { file ->
+            .collectFile (name: 'all_counts.txt') { file ->
                 file.toString() + '\n'
             }
     }
