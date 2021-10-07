@@ -17,7 +17,7 @@ workflow CALCULATE {
     )
 
     // Step 2: Merge by Chromosome and output
-    counts_resultsDir = "${params.outdir}/counts"
+    counts_resultsDir = "${params.outdir}/results/counts"
 
     if (params.libType == "10X"){
         count_merge_list = COUNT.out.count

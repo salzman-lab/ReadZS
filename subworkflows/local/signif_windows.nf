@@ -22,14 +22,15 @@ workflow SIGNIF_WINDOWS {
 
     // Step 2: Collect to file
     pval_file_list = CALC_MEDIAN.out.signif_medians
-        .collectFile (name: 'all_pvals.txt') { file ->
+        .collectFile (name: 'all_signif_medians.txt') { file ->
             file.toString() + '\n'
         }
+    pvals_resultsDir = "${params.outdir}/results/signif_medians"
     MERGE (
         pval_file_list,
         params.runName,
-        false,
-        "",
+        true,
+        "pvals_resultsDir",
         true
     )
 
