@@ -12,20 +12,11 @@ libType <- args[3]
 binSize <- as.numeric(args[4])
 
 ## Function to get bin from position, strand, and chromsome
-get_bin_10X <- function(pos, binSize, chr, strand)
+get_bin <- function(pos, binSize, chr, strand)
 {
   pos <- as.numeric(pos)
   bin_num <- ceiling(pos/binSize)
   bin <- paste(chr, bin_num, strand, sep="_")
-  return(bin)
-}
-
-## Function to get bin from position, strand, and chromsome
-get_bin_SS2 <- function(pos, binSize, chr)
-{
-  pos <- as.numeric(pos)
-  bin_num <- ceiling(pos/binSize)
-  bin <- paste(chr, bin_num, sep="_")
   return(bin)
 }
 
@@ -69,7 +60,7 @@ if (nrow(data) > 0) {  # if the input file is empty, don't do any of this.
     data <- data[, c("cell_id", "chr", "pos", "strand", "count","channel")]
 
     ## Create bin from position
-    data <- data[, bin := get_bin_10X(pos, binSize, chr, strand_label)]
+    data <- data[, bin := get_bin(pos, binSize, chr, strand_label)]
 
     ## Output
     output_file_name <- paste(basename, ".count", sep="")
@@ -80,11 +71,14 @@ if (nrow(data) > 0) {  # if the input file is empty, don't do any of this.
     names(data) <- c('cell_id', 'strand', 'chr', 'pos', 'channel')
 
     # Get counts at each position
-    data <- data[, count := .N, by=.(pos, cell_id, channel)]
+    data <- data[, count := .N, by=.(pos, cell_id, channel, strand)]
     data <- data[, c("cell_id", "chr", "pos", "strand", "count", "channel")]
 
+     # Get the strand label for the bin
+    strand_label <- get_strand(data$strand)
+
     ## Create bin from position
-    data <- data[, bin := get_bin_SS2(pos, binSize, chr)]
+    data <- data[, bin := get_bin(pos, binSize, chr, strand_label)]
 
     ## Output
     output_file_name <- paste(basename, ".count", sep="")
