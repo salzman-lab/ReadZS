@@ -13,7 +13,7 @@ workflow SUBCLUSTER {
         }
 
     // Step 1: Merge all counts
-    resultsDir = "${params.outdir}/counts"
+    resultsDir = "${launchDir}/${params.outdir}/counts"
     MERGE (
         counts_file_list,
         params.runName,
