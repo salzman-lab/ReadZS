@@ -18,7 +18,7 @@ process MERGE {
   basename = chr_merge_list.baseName
   outputFile = "${runName}_${basename}.txt"
 
-  if removeHeader
+  if (removeHeader == true)
     """
     rm -f ${outputFile}
     cat ${chr_merge_list} |
