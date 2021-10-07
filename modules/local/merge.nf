@@ -2,7 +2,7 @@ process MERGE {
   tag "${basename}"
   label 'process_low'
 
-  publishDir { "${saveFiles}" ? "${resultsDir}" : null }, mode: 'copy'
+  publishDir { saveFiles ? "${resultsDir}" : null }, mode: 'copy'
 
   input:
   path chr_merge_list
@@ -18,7 +18,7 @@ process MERGE {
   basename = chr_merge_list.baseName
   outputFile = "${runName}_${basename}.txt"
 
-  if "${removeHeader}"
+  if removeHeader
     """
     rm -f ${outputFile}
     cat ${chr_merge_list} |
