@@ -2,13 +2,13 @@ process MERGE {
   tag "${basename}"
   label 'process_low'
 
-  #publishDir "${resultsDir}", mode: 'copy'
+  //publishDir "${resultsDir}", mode: 'copy'
   publishDir { "${saveFiles}" ? "${resultsDir}", mode: 'copy' : false }
 
   input:
   path chr_merge_list
   val runName
-  val saveFile
+  val saveFiles
   path resultsDir
   val removeHeader
 
