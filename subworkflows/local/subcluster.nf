@@ -16,8 +16,10 @@ workflow SUBCLUSTER {
     resultsDir = "${launchDir}/${params.outdir}/counts"
     MERGE (
         counts_file_list,
+        true,
         params.runName,
-        resultsDir
+        resultsDir,
+        false
     )
 
     // STEP 1: GMM Peak finding

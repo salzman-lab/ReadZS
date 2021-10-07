@@ -4,6 +4,7 @@ include { PICARD_MARKDUPLICATES   } from '../../modules/nf-core/modules/picard/m
 include { FILTER_BAM_10X          } from '../../modules/local/filter_bam_10X'
 include { FILTER_BAM_SS2          } from '../../modules/local/filter_bam_SS2'
 include { MERGE_FILTERED          } from '../../modules/local/merge_filtered'
+include { MERGE          } from '../../modules/local/merge'
 
 workflow PREPARE_10X {
     take:
@@ -51,8 +52,13 @@ workflow PREPARE_10X {
         }
 
     // Step 4: Merge grouped files
-    MERGE_FILTERED (
-        channel_merge_list
+    resultsDir = ""
+    MERGE (
+        channel_merge_list,
+        params.runName,
+        false,
+        resultsDir,
+        false
     )
 
     emit:

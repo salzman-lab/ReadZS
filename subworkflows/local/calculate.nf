@@ -29,15 +29,17 @@ workflow CALCULATE {
                     files.collect{ it.toString() }.join('\n') + '\n'
                 ]
             }
+        resultsDir = "${launchDir}/${params.outdir}/counts"
         MERGE (
             chr_merge_list,
-            params.runName
+            params.runName,
+            true,
+            resultsDir,
+            false
         )
         ch_counts = MERGE.out.merged
-    }
-
-    // If SS2, no need to merge.
-    if (params.libType == "SS2") {
+    } else if (params.libType == "SS2") {
+        // If SS2, no need to merge.
         ch_counts = COUNT.out.count
     }
 
@@ -58,10 +60,13 @@ workflow CALCULATE {
         MERGE (
             zscores_file_list,
             params.runName,
-            resultsDir
+            true,
+            resultsDir,
+            true
         )
         ch_zscore = MERGE.out.merged
     } else {
+        // If 10X, no need to merge
         ch_zscore = CALC_ZSCORE.out.zscore
     }
 
