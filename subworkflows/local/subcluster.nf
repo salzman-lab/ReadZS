@@ -16,8 +16,8 @@ workflow SUBCLUSTER {
     resultsDir = "${launchDir}/${params.outdir}/counts"
     MERGE (
         counts_file_list,
-        true,
         params.runName,
+        true,
         resultsDir,
         false
     )
