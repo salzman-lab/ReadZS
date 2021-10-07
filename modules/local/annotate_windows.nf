@@ -21,6 +21,7 @@ process ANNOTATE_WINDOWS {
       sort -k1,1 -k2,2n > windows.file
     bedtools intersect -a windows.file -b ${annotation_bed} -loj -wa |
       awk -v OFS='\t' '{print \$1,\$2,\$3,\$4,\$10}' |
+      bedtools groupby -g 1,2,3,4 -c 5 -o collapse |
       sed '1i chr\tstart\tend\tchr_window\tgene' > annotated_windows.file
     """
   else
@@ -30,6 +31,7 @@ process ANNOTATE_WINDOWS {
       sort -k1,1 -k2,2n > windows.file
     bedtools intersect -a windows.file -b ${annotation_bed} -loj -wa |
       awk -v OFS='\t' '{print \$1,\$2,\$3,\$4,\$10}' |
+      bedtools groupby -g 1,2,3,4 -c 5 -o collapse |
       sed '1i chr\tstart\tend\tchr_window\tgene' > annotated_windows.file
     """
 }
