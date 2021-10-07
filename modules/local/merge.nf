@@ -2,7 +2,7 @@ process MERGE {
   tag "${basename}"
   label 'process_low'
 
-  publishDir { "${saveFiles}" ? "${resultsDir}", mode: 'copy' : false }
+  publishDir { "${saveFiles}" ? "${resultsDir}", mode: 'copy' : null }
 
   input:
   path chr_merge_list
