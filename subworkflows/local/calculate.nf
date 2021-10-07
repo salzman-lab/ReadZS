@@ -54,7 +54,7 @@ workflow CALCULATE {
                 file.toString() + '\n'
             }
         // If smartseq2, merge all the counts files together before zscore calc.
-        resultsDir = "${params.outdir}/zscore"
+        resultsDir = "zscores"
         MERGE (
             zscores_file_list,
             params.runName,
