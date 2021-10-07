@@ -54,7 +54,7 @@ workflow CALCULATE {
             counts_resultsDir,
             false
         )
-        ch_merged_counts = MERGE_SPLIT.out.merged
+        ch_merged_counts = MERGE_SPLIT.out.merged.flatten()
     }
 
     // Step 2: Calculate zscores
