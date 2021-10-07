@@ -4,7 +4,7 @@ process PVAL_LIST {
   label 'process_low'
 
   input:
-  path pval_file_list
+  path allPval_file
   val runName
   path annotated_windows
 
@@ -13,17 +13,9 @@ process PVAL_LIST {
   path "${runName}_ann_pvals.txt",   emit: ann_pvals,   optional: true
 
   script:
-  allPval_file = "${runName}_results.txt"
   outfile_allPvals = "${runName}_all_pvals.txt"
   outfile_annPvals = "${runName}_ann_pvals.txt"
   """
-  [ -f "${allPval_file}" ] && rm "${allPval_file}"
-
-  while read line
-  do
-    tail -n +2 \${line} >> ${allPval_file}
-  done < ${pval_file_list}
-
   make_pval_list.R \\
     ${allPval_file} \\
     ${annotated_windows} \\

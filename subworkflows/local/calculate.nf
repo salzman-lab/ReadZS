@@ -64,25 +64,7 @@ workflow CALCULATE {
         params.metadata
     )
 
-    // Step 3: Caclulate significant medians
-    if (params.zscores_only) {
-        pval_file_list = Channel.empty()
-    } else {
-        CALC_MEDIAN (
-            CALC_ZSCORE.out.zscore,
-            params.ontologyCols,
-            params.minCellsPerWindowOnt,
-            params.minCtsPerCell,
-            params.nPermutations
-        )
-        // Collect to file
-        pval_file_list = CALC_MEDIAN.out.signif_medians
-            .collectFile{ file ->
-                file.toString() + '\n'
-            }
-    }
-
     emit:
     counts          = ch_merged_counts
-    pval_file_list  = pval_file_list
+    zscores         = CALC_ZSCORE.out.zscore
 }

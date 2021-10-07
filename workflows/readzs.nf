@@ -35,7 +35,7 @@ include { GET_SOFTWARE_VERSIONS } from '../modules/local/get_software_versions' 
 //
 // SUBWORKFLOW: Consisting of a mix of local and nf-core/modules
 //
-include { ANNOTATE      } from '../subworkflows/local/annotate'
+include { SIGNIF_WINDOWS      } from '../subworkflows/local/signif_windows'
 include { CALCULATE     } from '../subworkflows/local/calculate'
 include { PLOT          } from '../subworkflows/local/plot'
 include { PREPROCESS    } from '../subworkflows/local/preprocess'
@@ -105,17 +105,15 @@ workflow READZS {
             ch_counts = Channel.fromPath(params.counts_path)
             ch_ann_pvals = Channel.fromPath(params.ann_pvals_path)
         } else {
-            pval_file_list = CALCULATE.out.pval_file_list
-
             // Annotate windows file
-            ANNOTATE (
-                pval_file_list
+            SIGNIF_WINDOWS (
+                CALCULATE.out.zscores
             )
 
             // Init channels for downstream analysis
             ch_counts = CALCULATE.out.counts
-            ch_all_pvals = ANNOTATE.out.all_pvals
-            ch_ann_pvals = ANNOTATE.out.ann_pvals
+            ch_all_pvals = SIGNIF_WINDOWS.out.all_pvals
+            ch_ann_pvals = SIGNIF_WINDOWS.out.ann_pvals
         }
 
         // Plot
