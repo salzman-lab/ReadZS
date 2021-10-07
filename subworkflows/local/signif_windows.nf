@@ -30,7 +30,7 @@ workflow SIGNIF_WINDOWS {
         pval_file_list,
         params.runName,
         true,
-        "pvals_resultsDir",
+        pvals_resultsDir,
         true
     )
 
