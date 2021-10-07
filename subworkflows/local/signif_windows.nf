@@ -10,13 +10,6 @@ workflow SIGNIF_WINDOWS {
     ch_zcores
 
     main:
-    // Step 0: Annotate windows
-    ANNOTATE_WINDOWS (
-        params.isCellranger,
-        params.chr_lengths,
-        params.annotation_bed,
-        params.binSize
-    )
 
     // Step 1: Calculate medians
     CALC_MEDIAN (
@@ -40,7 +33,15 @@ workflow SIGNIF_WINDOWS {
         true
     )
 
-    // Step 3: Create annotated and unannotated signif window lists
+    // Step 3: Annotate windows
+    ANNOTATE_WINDOWS (
+        params.isCellranger,
+        params.chr_lengths,
+        params.annotation_bed,
+        params.binSize
+    )
+
+    // Step 4: Create annotated and unannotated signif window lists
     PVAL_LIST (
         MERGE.out.merged,
         params.runName,
