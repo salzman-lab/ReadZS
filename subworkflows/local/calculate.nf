@@ -73,6 +73,6 @@ workflow CALCULATE {
     }
 
     emit:
-    counts          = ch_counts
+    counts          = MERGE.out.merged
     pval_file_list  = pval_file_list
 }
