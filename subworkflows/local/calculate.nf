@@ -17,8 +17,6 @@ workflow CALCULATE {
     )
 
     // Step 2: Merge by Chromosome and output
-    counts_resultsDir = "${params.outdir}/counts"
-
     if (params.libType == "10X"){
         count_merge_list = COUNT.out.count
             .map { file ->
@@ -36,8 +34,7 @@ workflow CALCULATE {
         MERGE (
             count_merge_list,
             params.runName,
-            true,
-            counts_resultsDir,
+            "counts",
             false
         )
         ch_merged_counts = MERGE.out.merged
@@ -50,8 +47,7 @@ workflow CALCULATE {
         MERGE_SPLIT (
             count_merge_list,
             params.runName,
-            true,
-            counts_resultsDir,
+            "counts",
             false
         )
         ch_merged_counts = MERGE_SPLIT.out.merged.flatten()

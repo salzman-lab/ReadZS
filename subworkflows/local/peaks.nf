@@ -13,12 +13,10 @@ workflow PEAKS {
         file.toString() + '\n'
     }
 
-    resultsDir = "${params.outdir}/counts"
     MERGE (
         counts_file_list,
         params.runName,
-        true,
-        resultsDir,
+        "counts",
         false
     )
     ch_counts = MERGE.out.merged

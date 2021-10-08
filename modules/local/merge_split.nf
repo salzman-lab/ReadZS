@@ -2,13 +2,13 @@ process MERGE_SPLIT {
   tag "${basename}"
   label 'process_low'
 
-  publishDir { saveFiles ? "${resultsDir}" : null }, mode: 'copy'
+  publishDir "${params.outdir}/${subDir}",
+    mode: 'copy'
 
   input:
   path chr_merge_list
   val runName
-  val saveFiles
-  path resultsDir
+  val subDir
   val removeHeader
 
   output:

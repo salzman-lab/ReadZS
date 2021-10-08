@@ -52,12 +52,10 @@ workflow PREPARE_10X {
         }
 
     // Step 4: Merge grouped files
-    resultsDir = "${params.outdir}/results/filtered_bams"
     MERGE (
         channel_merge_list,
         params.runName,
-        true,
-        resultsDir,
+        "filtered_bams",
         false
     )
 
