@@ -118,10 +118,9 @@ workflow READZS {
 
         // Plot
         if (!params.skip_plot || params.plot_only) {
-            resultsDir = "${launchDir}/${params.outdir}"
             PLOT (
                 ch_all_pvals,
-                resultsDir
+                params.outdir
             )
         }
 
