@@ -87,7 +87,7 @@ These default values can be modified to suit the needs of your data.
 | `plot_only`             | If all steps up to median calculation have been previously performed, only perform plot generation of read distributions. | `false`|
 | `subcluster_only`       | If all steps up to annotation steps have been previously performed, only perform subclustering/peak calling.| `false`|
 
-## `plot_only` Parmeters
+## `plot_only` Parameters
 
 | Argument                | Description     | Example Usage  |
 | -----------             | -----------     |-----------|
@@ -98,12 +98,12 @@ These default values can be modified to suit the needs of your data.
 | `binSize`               | Size of genomic bins, used to calculate z-scores | **Defaults to 5000**  |
 | `nGenesToPlot`          | Number of top windows to generate read distribution histograms for| **Defaults to 20** |
 
-## `peaks_only` Parmeters
+## `peaks_only` Parameters
 
 | Argument                | Description     | Example Usage  |
 | -----------             | -----------     |-----------|
-| (`--subcluster_only`) `counts_path`           | Path to results directory for counts files. | *home/results/counts* |
-| (`--subcluster_only`) `ann_pvals_path`        | Path to ann_pvals file. | *home/results/results/annotated_files/`${runName}`_ann_pvals.txt* |
+| `counts_path`           | Path to results directory for counts files. | *home/results/counts* |
+| `ann_pvals_path`        | Path to ann_pvals file. | *home/results/results/annotated_files/`${runName}`_ann_pvals.txt* |
 | `runName`               | Descriptive name for ReadZS run, used in the final output files |*Tumor_5* |
 | `peak_method`           | Subclustering method for calling peaks, options: `knee`, `max` | **Defaults to `knee`** |
 
