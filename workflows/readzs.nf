@@ -35,6 +35,7 @@ include { GET_SOFTWARE_VERSIONS } from '../modules/local/get_software_versions' 
 //
 // SUBWORKFLOW: Consisting of a mix of local and nf-core/modules
 //
+include { INPUT_CHECK       } from '../subworkflows/local/input_check'
 include { SIGNIF_WINDOWS    } from '../subworkflows/local/signif_windows'
 include { CALCULATE         } from '../subworkflows/local/calculate'
 include { PLOT              } from '../subworkflows/local/plot'
@@ -65,73 +66,64 @@ def multiqc_report = []
 
 workflow READZS {
 
-    // Param checks
-    if (params.isSICILIAN) {
-        if (params.isCellranger) {
-            exit 1, "Invalid parameter input. SICILIAN output files should have `isCellranger = false`."
-        }
-    }
-    if (params.libType == 'SS2') {
-        if (params.isCellranger) {
-            exit 1, "Invalid parameter input. SS2 data should have `isCellranger = false`."
-        }
-    }
-    if (params.libType == '10X') {
-        if (!params.isCellranger && !params.isSICILIAN) {
-            exit 1, "Invalid parameter input. 10X data must either by cellranger or SICILIAN output."
-        }
-    }
-    if (params.plot_only && params.skip_plot) {
-        exit 1, "Invalid parameter input."
-    }
-    if (params.subcluster_only && params.skip_subcluster) {
-        exit 1, "Invalid parameter input."
-    }
-    if (params.plot_only && params.skip_plot) {
-        exit 1, "Invalid parameter input."
-    }
+    INPUT_CHECK ()
 
-    PREPROCESS ()
+    if (params.plot_only) {
+        ch_all_pvals = Channel.fromPath(params.all_pvals_path)
 
-    CALCULATE (
-        PREPROCESS.out.filter
-    )
+        PLOT (
+            ch_all_pvals,
+            params.outdir
+        )
 
-    if (!params.zscores_only) {
-        // Gather significant pvalues
-        if (params.plot_only) {
-            ch_all_pvals = Channel.fromPath(params.all_pvals_path)
-        } else if (params.subcluster_only) {
-            ch_counts = Channel.fromPath(params.counts_path)
-            ch_ann_pvals = Channel.fromPath(params.ann_pvals_path)
-        } else {
+    } else if (params.peaks_only) {
+        // requires: counts_path, ann_pvals_path, runName, peakMethod
+        ch_counts = Channel.fromPath(params.counts_path)
+        ch_ann_pvals = Channel.fromPath(params.ann_pvals_path)
+
+        PEAKS (
+            ch_counts,
+            ch_ann_pvals
+        )
+
+    } else {
+        // Sort and filter reads
+        PREPROCESS ()
+
+        // Clculate zscores
+        CALCULATE (
+            PREPROCESS.out.filter
+        )
+
+        if (!params.zscores_only) {
             // Annotate windows file
             SIGNIF_WINDOWS (
                 CALCULATE.out.zscores
             )
 
-            // Init channels for downstream analysis
+            // Channels for downstream analysis
             ch_counts = CALCULATE.out.counts
             ch_all_pvals = SIGNIF_WINDOWS.out.all_pvals
             ch_ann_pvals = SIGNIF_WINDOWS.out.ann_pvals
-        }
 
-        // Plot
-        if (!params.skip_plot || params.plot_only) {
-            PLOT (
-                ch_all_pvals,
-                params.outdir
-            )
-        }
 
-        // Subcluster
-        if (!params.skip_subcluster || params.subcluster_only) {
-            PEAKS (
-                ch_counts,
-                ch_ann_pvals
-            )
-        }
+            // Plot
+            if (!params.skip_plot) {
+                PLOT (
+                    ch_all_pvals,
+                    params.outdir
+                )
+            }
 
+            // Call peaks
+            if (!params.skip_peaks) {
+                PEAKS (
+                    ch_counts,
+                    ch_ann_pvals
+                )
+            }
+
+        }
     }
 
 }

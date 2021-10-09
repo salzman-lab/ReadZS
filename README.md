@@ -81,20 +81,31 @@ These default values can be modified to suit the needs of your data.
 | `nPermutations`         | Number of permutations to be used in median calculation | *1000* |
 | `nGenesToPlot`          | Number of top windows to generate read distribution histograms for| *20* |
 | `peak_method`           | Subclustering method for calling peaks, options: `knee`, `max` | `knee` |
+| `zscores_only`          | Calculate ReadZS values for cells over genomic bins, without annotating cells with cell-types or any downstram analyses. | `false` |
+| `skip_plot`             | Run all steps of pipeline, except for plot generation of read distributions. | `false` |
+| `skip_subcluster`       | Run all steps of pipeline, except for subclustering/peak calling. | `false` |
+| `plot_only`             | If all steps up to median calculation have been previously performed, only perform plot generation of read distributions. | `false`|
+| `subcluster_only`       | If all steps up to annotation steps have been previously performed, only perform subclustering/peak calling.| `false`|
 
-## Pipeline Parameters
-By default, these boolean parameters are all `false`, in order to run every step of the pipeline. These parameters can be used to modify which steps are run, or to re-run analysis steps on previously completed steps.
-| Argument                | Description     | Additional requirements  |
+## `plot_only` Parmeters
+
+| Argument                | Description     | Example Usage  |
 | -----------             | -----------     |-----------|
-| `zscores_only`          | Calculate ReadZS values for cells over genomic bins, without annotating cells with cell-types or any downstram analyses. | If `true`, `plot_only` and `subcluster_only` cannot be `true` |
-| `skip_plot`             | Run all steps of pipeline, except for plot generation of read distributions. | If `true`, `plot_only` cannot be `true` |
-| `skip_subcluster`       | Run all steps of pipeline, except for subclustering/peak calling. | If `true`, `subcluster_only` cannot be `true`  |
-| `plot_only`             | If all steps up to median calculation have been previously performed, only perform plot generation of read distributions. | `all_pvals_path` , `resultsDir`|
-| `subcluster_only`       | If all steps up to annotation steps have been previously performed, only perform subclustering/peak calling.| `counts_path`, `ann_pvals_path`|
-| (`--plot_only`) `all_pvals_path`        | Path to all_pvals file, containing a `windows` column. | *home/results/results/annotated_files/`${runName}`_all_pvals.txt* |
-| (`--plot_only`) `resultsDir`            | Path to results directory of previous run. | *home/results*  |
+| `all_pvals_path`        | Path to all_pvals file, containing a `windows` column. | *home/results/results/annotated_files/`${runName}`_all_pvals.txt* |
+| `resultsDir`            | Path to results directory of previous run. | *home/results*  |
+| `runName`               | Descriptive name for ReadZS run, used in the final output files |*Tumor_5* |
+| `ontologyCols	`         | Double-encapsulated list string describing the `metadata` columns that will create the cell-type variable | *"'tissue, compartment, annotation'"* |
+| `binSize`               | Size of genomic bins, used to calculate z-scores | **Defaults to 5000**  |
+| `nGenesToPlot`          | Number of top windows to generate read distribution histograms for| **Defaults to 20** |
+
+## `peaks_only` Parmeters
+
+| Argument                | Description     | Example Usage  |
+| -----------             | -----------     |-----------|
 | (`--subcluster_only`) `counts_path`           | Path to results directory for counts files. | *home/results/counts* |
 | (`--subcluster_only`) `ann_pvals_path`        | Path to ann_pvals file. | *home/results/results/annotated_files/`${runName}`_ann_pvals.txt* |
+| `runName`               | Descriptive name for ReadZS run, used in the final output files |*Tumor_5* |
+| `peak_method`           | Subclustering method for calling peaks, options: `knee`, `max` | **Defaults to `knee`** |
 
 ## File Descriptions
 #### `input`

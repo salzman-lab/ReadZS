@@ -233,6 +233,9 @@
         }
     ],
     "properties": {
+        "ann_pvals_path": {
+            "type": "string"
+        },
         "useChannels": {
             "type": "boolean"
         },
@@ -303,6 +306,38 @@
         },
         "zscores_only": {
             "type": "boolean"
+        },
+        "peak_method": {
+            "type": "string",
+            "default": "knee"
+        },
+        "peaks_only": {
+            "type": "string"
+        },
+        "skip_plot": {
+            "type": "string"
+        },
+        "skip_peaks": {
+            "type": "string"
+        },
+        "genome": {
+            "type": "string"
+        },
+        "igenomes_base": {
+            "type": "string",
+            "default": "s3://ngi-igenomes/igenomes"
+        },
+        "igenomes_ignore": {
+            "type": "string"
+        },
+        "multiqc_title": {
+            "type": "string"
+        },
+        "email": {
+            "type": "string"
+        },
+        "fasta": {
+            "type": "string"
         }
     }
 }
