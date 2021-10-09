@@ -90,13 +90,15 @@ These default values can be modified to suit the needs of your data.
 ## `plot_only` Parameters
 
 Example run command:
-    ```
-    nextflow run salzmanlab/readzs \
-        --all_pvals_path *home/results/results/annotated_files/`${runName}`_all_pvals.txt* \
-        --resultsDir *home/results* \
-        --runName Tumor5 \
-        --ontologyCols "'tissue, compartment, annotation'"
-    ```
+
+```
+nextflow run salzmanlab/readzs \
+    --all_pvals_path *home/results/results/annotated_files/`${runName}`_all_pvals.txt* \
+    --resultsDir *home/results* \
+    --runName Tumor5 \
+    --ontologyCols "'tissue, compartment, annotation'"
+```
+
 | Argument                | Description     | Example Usage  |
 | -----------             | -----------     |-----------|
 | `all_pvals_path`        | Path to all_pvals file, containing a `windows` column. | *home/results/results/annotated_files/`${runName}`_all_pvals.txt* |
@@ -109,12 +111,14 @@ Example run command:
 ## `peaks_only` Parameters
 
 Example run command:
-    ```
-    nextflow run salzmanlab/readzs \
-        --counts_path home/results/counts \
-        --ann_pvals_path home/results/results/annotated_files/`${runName}`_ann_pvals.txt \
-        --runName Tumor5
-    ```
+
+```
+nextflow run salzmanlab/readzs \
+    --counts_path home/results/counts \
+    --ann_pvals_path home/results/results/annotated_files/`${runName}`_ann_pvals.txt \
+    --runName Tumor5
+```
+
 | Argument                | Description     | Example Usage  |
 | -----------             | -----------     |-----------|
 | `counts_path`           | Path to results directory for counts files. | *home/results/counts* |
