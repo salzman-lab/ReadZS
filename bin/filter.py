@@ -97,7 +97,7 @@ def filter_SS2(inputChannel, bamName, bam_file, isCellranger):
     out = open(outfile, "w")
 
     for read in bam_file:
-        if pass_filter_lenient(read):
+        if pass_filter(read):
             chr, position, strand = get_read_info(read, bam_file, isCellranger)
             write_out_SS2(inputChannel, strand, chr, position, out)
     out.close()
