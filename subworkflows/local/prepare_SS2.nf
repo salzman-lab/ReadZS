@@ -12,16 +12,21 @@ workflow PREPARE_SS2 {
 
     main:
 
-    // Step 1: Remove duplicates
-    PICARD (
+    // Step 1: Sort bams
+    SAMTOOLS_SORT (
         ch_input
+    )
+
+    // Step 2: Remove duplicates
+    PICARD (
+        SAMTOOLS_SORT.out.bam
     )
 
     SAMTOOLS_INDEX (
         PICARD.out.bam_tuple
     )
 
-    // Step 2: Filter bams
+    // Step 3: Filter bams
     FILTER_BAM_SS2 (
         SAMTOOLS_INDEX.out.bam_tuple,
         params.isSICILIAN,
