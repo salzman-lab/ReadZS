@@ -60,6 +60,6 @@ workflow PREPARE_10X {
     )
 
     emit:
-    filter = MERGE.out.filter
+    filter = MERGE.out.merged
 
 }
