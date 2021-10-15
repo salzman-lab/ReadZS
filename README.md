@@ -97,7 +97,8 @@ nextflow run salzmanlab/readzs \
     --all_pvals_path *home/results/results/annotated_files/`${runName}`_all_pvals.txt* \
     --resultsDir *home/results* \
     --runName Tumor5 \
-    --ontologyCols "'tissue, compartment, annotation'"
+    --ontologyCols "'tissue, compartment, annotation'" \
+    --gff genome.gff
 ```
 
 | Argument                | Description     | Example Usage  |
@@ -106,6 +107,7 @@ nextflow run salzmanlab/readzs \
 | `resultsDir`            | Path to results directory of previous run. | *home/results*  |
 | `runName`               | Descriptive name for ReadZS run, used in the final output files |*Tumor_5* |
 | `ontologyCols	`         | Double-encapsulated list string describing the `metadata` columns that will create the cell-type variable | *"'tissue, compartment, annotation'"* |
+| `gff`                   | Location of genome GFF file, used for plotting; can be obtained from [GENCODE](https://www.gencodegenes.org/human/) | */home/refs/humanv37.gff* |
 | `binSize`               | Size of genomic bins, used to calculate z-scores | **Defaults to 5000**  |
 | `nGenesToPlot`          | Number of top windows to generate read distribution histograms for| **Defaults to 20** |
 
