@@ -60,7 +60,7 @@ for (target_window in windows_list){
     #total_counts <- onts_list[i, sum_counts_per_window_per_ont]
 
     counts_file <- paste(
-      outputDir, "/counts/", sample_name, "_", target_chr, ".count",
+      outputDir, "/counts/", sample_name, "_", target_chr, ".txt",
       sep=""
     )
 
