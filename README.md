@@ -93,6 +93,7 @@ Example run command:
 
 ```
 nextflow run salzmanlab/readzs \
+    --plot_only true \
     --all_pvals_path *home/results/results/annotated_files/`${runName}`_all_pvals.txt* \
     --resultsDir *home/results* \
     --runName Tumor5 \
@@ -114,6 +115,7 @@ Example run command:
 
 ```
 nextflow run salzmanlab/readzs \
+    --peaks_only true \
     --counts_path home/results/counts \
     --ann_pvals_path home/results/results/annotated_files/`${runName}`_ann_pvals.txt \
     --runName Tumor5
