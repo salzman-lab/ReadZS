@@ -42,6 +42,7 @@ ICL_vec = c()
 window_of_interest = c()
 comp_prob = c()
 for (counter in 1:nrow(significant_windows)){
+  print(counter)
   tryCatch({
     window_of_interest[counter] = significant_windows$window[counter]
     position_count_gene = position_count[window == window_of_interest[counter]]
