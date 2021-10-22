@@ -2,7 +2,7 @@ process FILTER_BAM_10X {
   tag "${chr}, ${bamFileID}"
   label 'process_medium'
 
-  conda 'bioconda::pysam=0.17.0 pandas'
+  conda 'bioconda::pysam=0.17.0'
 
   input:
   tuple val(inputChannel), val(bamFileID), path(bam), path(bai)
