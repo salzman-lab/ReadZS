@@ -7,8 +7,6 @@ options        = initOptions(params.options)
 process SAMTOOLS_SORT {
     tag "${bamFileID}"
     label 'process_medium'
-    publishDir "${params.outdir}/bams",
-        mode: params.publish_dir_mode
 
     conda 'bioconda::samtools=1.13'
     if (workflow.containerEngine == 'singularity' && !params.singularity_pull_docker_container) {
