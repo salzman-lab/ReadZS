@@ -312,13 +312,13 @@
             "default": "knee"
         },
         "peaks_only": {
-            "type": "string"
+            "type": "boolean"
         },
         "skip_plot": {
-            "type": "string"
+            "type": "boolean"
         },
         "skip_peaks": {
-            "type": "string"
+            "type": "boolean"
         },
         "genome": {
             "type": "string"
