@@ -1,7 +1,39 @@
 #!/usr/bin/env python
 
+#Print out the location of the python executable so I know which one it is using
+import sys
+print('Python executable path is',sys.executable)
+
 import argparse
 import pysam
+
+#Sam flag meanings from https://broadinstitute.github.io/picard/explain-flags.html
+bit_meanings = {
+    'read paired':                               0b000000000001,
+    'read mapped in proper pair':                0b000000000010,
+    'read unmapped':                             0b000000000100,
+    'mate unmapped':                             0b000000001000,
+    'read reverse strand':                       0b000000010000,
+    'mate reverse strand':                       0b000000100000,
+    'first in pair':                             0b000001000000,
+    'second in pair':                            0b000010000000,
+    'not primary alignment':                     0b000100000000,
+    'read fails platform/vendor quality checks': 0b001000000000,
+    'read is PCR or optical duplicate':          0b010000000000,
+    'supplementary alignment':                   0b100000000000,
+}
+
+#If any of these bits are set, reject the read
+#can test if a flag is rejectable if flag&reject_flags != 0
+reject_flags = (
+    bit_meanings['read unmapped'] |
+    bit_meanings['mate unmapped'] |
+    bit_meanings['second in pair'] |
+    bit_meanings['not primary alignment'] |
+    bit_meanings['read fails platform/vendor quality checks'] |
+    bit_meanings['supplementary alignment']
+)
+
 
 def get_args():
   parser = argparse.ArgumentParser()
@@ -15,19 +47,19 @@ def get_args():
   args = parser.parse_args()
   return args
 
+
 def pass_filter(read):
     cigar = read.cigar
     mq = read.mapping_quality
     read_length = read.query_length
-    flag = read.flag
-    if cigar == [(0, read_length)] and mq == 255 and flag in [0, 16, 1024, 1040]:  # 1024 and 1040 to allow reads marked as duplicates
+    rejectable_flag = read.flag & reject_flags
+    if cigar == [(0, read_length)] and mq == 255 and not rejectable_flag:
         return True
 
 def pass_filter_lenient(read):
     cigar = read.cigar
     mq = read.mapping_quality
     read_length = read.query_length
-    flag = read.flag
     if cigar == [(0, read_length)] and mq == 255:  # 1024 and 1040 to allow reads marked as duplicates
         return True
 
@@ -41,10 +73,8 @@ def get_read_info(read, bam_file, isCellranger):
         if "chr" not in chr:
             chr = "chr" + chr
     position = read.reference_start + 1
-    if read.flag == 0:
-            strand = "+"
-    else:
-        strand = "-"
+    strand = '-' if read.flag&bit_meanings['read reverse strand'] else '+'
+
     return chr, position, strand
 
 def get_SICILIAN_outs(read):
