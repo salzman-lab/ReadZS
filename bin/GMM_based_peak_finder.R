@@ -48,6 +48,17 @@ for (counter in 1:nrow(significant_windows)){
     position_count_gene = position_count[window == window_of_interest[counter]]
     positions_df = data.frame(rep(position_count_gene$pos, position_count_gene$count))
     names(positions_df) = "N"
+
+    counts_per_pos = sort(table(positions_df),TRUE) ## I need to add this if statement because I noticed that for some cases where there is a sharp peak ina single position the ICL command keeps hanging. For these cases, I downsample the reads for the position with the highest count
+    if (counts_per_pos[1]>2*counts_per_pos[2]){
+      max_locus = as.numeric(names(counts_per_pos)[1])
+      positions_df_not_max = data.frame(positions_df[positions_df$N!=max_locus,])
+      names(positions_df_not_max) = "N"
+      a = data.frame(rep( max_locus,counts_per_pos[2]*2))
+      names(a) = "N"
+      positions_df = rbind(positions_df_not_max,a)
+    }
+
     withTimeout(   ICL <- mclustICL(positions_df),timeout = 300)
 
     ICL_vector = ICL[,2]
