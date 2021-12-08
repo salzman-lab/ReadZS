@@ -42,6 +42,7 @@ The pipeline is built using [Nextflow](https://www.nextflow.io), a workflow tool
 2. Run the pipeline on test data.
     ```bash
     nextflow run salzmanlab/readzs \
+        -r master \
         -latest \
         -profile small_test_data
     ```
@@ -50,6 +51,7 @@ The pipeline is built using [Nextflow](https://www.nextflow.io), a workflow tool
 
 
         nextflow run salzmanlab/readzs \
+            -r master \
             -latest \
             -profile small_test_data,sherlock
 
