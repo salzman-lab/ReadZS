@@ -1,11 +1,12 @@
 include { BOWTIE2_ALIGN } from  '../../../modules/nf-core/modules/bowtie2/align/main'
+include { TRIMGALORE } from  '../../../modules/nf-core/modules/trimgalore/main'
 
 workflow ALIGN {
     take:
     index
 
     main:
-    // Step 1: Parse fastq sampelsheet
+    // Step 1: Parse fastq samplesheet
     ch_fastqs = Channel.fromPath(params.fastq_samplesheet)
         .splitCsv(header: false)
         .map { row ->
@@ -15,9 +16,14 @@ workflow ALIGN {
             )
         }
 
-    // STEP 2: Align fastqs
+    // Step 2: Trim reads
+    TRIMGALORE (
+        ch_fastqs
+    )
+
+    // Step 3: Align reads
     BOWTIE2_ALIGN (
-        ch_fastqs,
+        TRIMGALORE.out.reads,
         index
     )
 
