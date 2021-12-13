@@ -21,8 +21,8 @@ process CONCAT_REFS {
     rm -rf ${fasta}
     while read line
     do
-        id=$(echo "\${line}" | awk '{print \$1}')
-        file=$(echo "\${line}" | awk '{print \$2}')
+        id="\$(echo "\${line}" | awk '{print \$1}')"
+        file="\$(echo "\${line}" | awk '{print \$2}')"
         ext="\${file##*.}"
 
         if [[ "\${ext}" == "gz" ]]
