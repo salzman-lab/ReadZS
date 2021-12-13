@@ -29,7 +29,7 @@ process CONCAT_REFS {
         then
             zcat "\${file}" | sed 's/>/>"\${id}"_/g' >> ${fasta}
         else
-            sed 's/>/>"\${id}"_/g' ${file} >> ${fasta}
+            sed 's/>/>"\${id}"_/g' "$\{file}" >> ${fasta}
         fi
     done < ${reference_samplesheet}
     """
