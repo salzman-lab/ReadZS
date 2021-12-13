@@ -21,10 +21,10 @@ process CONCAT_REFS {
     rm -rf ${fasta}
     while read line
     do
-        id="\$(echo "\${line}" | awk '{print \$1}')"
-        file="\$(echo "\${line}" | awk '{print \$2}')"
+        id="\$(echo "\${line}" | cut -d, -f1)"
+        file="\$(echo "\${line}" | cut -d, -f2)"
 
-        zcat "\${file}" | sed "s/>/>\${id}_/g" >> ${fasta}
+        zcat "\${file}" | sed "s/>/>\$id_/g" >> ${fasta}
     done < ${reference_samplesheet}
     """
 }
