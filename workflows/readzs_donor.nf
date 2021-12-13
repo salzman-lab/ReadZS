@@ -86,17 +86,17 @@ workflow READZS_DONOR {
         )
         ch_bams = ALIGN.out.bam
 
-        // Calculate zscores and significant windows
-        CALCULATE (
-            ch_bams
-        )
+        // // Calculate zscores and significant windows
+        // CALCULATE (
+        //     ch_bams
+        // )
 
-        // Plot significant windows
-        if (!params.skip_plot) {
-            PLOT (
-                CALCULATE.out.signif_medians
-            )
-        }
+        // // Plot significant windows
+        // if (!params.skip_plot) {
+        //     PLOT (
+        //         CALCULATE.out.signif_medians
+        //     )
+        // }
 
     }
 

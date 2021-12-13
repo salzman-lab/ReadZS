@@ -6,7 +6,7 @@ workflow ALIGN {
 
     main:
     // Step 1: Parse fastq sampelsheet
-    ch_fastqs = Channel.fromPath(params.samplesheet_fastqs)
+    ch_fastqs = Channel.fromPath(params.fastq_samplesheet)
         .splitCsv(header: false)
         .map { row ->
             tuple (
