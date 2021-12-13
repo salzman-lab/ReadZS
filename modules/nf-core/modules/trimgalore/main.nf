@@ -26,7 +26,6 @@ process TRIMGALORE {
     def cores = 1
     if (task.cpus) {
         cores = (task.cpus as int) - 4
-        if (meta.single_end) cores = (task.cpus as int) - 3
         if (cores < 1) cores = 1
         if (cores > 4) cores = 4
     }
