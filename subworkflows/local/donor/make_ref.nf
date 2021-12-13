@@ -1,5 +1,5 @@
-include { CONCAT_REFS   } from  '../../modules/local/donor/concat_refs'
-include { BOWTIE2_BUILD } from  '../../modules/nf-core/modules/bowtie2/build/main'
+include { CONCAT_REFS   } from  '../../../modules/local/donor/concat_refs'
+include { BOWTIE2_BUILD } from  '../../../modules/nf-core/modules/bowtie2/build/main'
 
 workflow MAKE_REF {
     take:
