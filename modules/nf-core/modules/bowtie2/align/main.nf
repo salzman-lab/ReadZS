@@ -12,9 +12,9 @@ process BOWTIE2_ALIGN {
     path index
 
     output:
-    path "*.bam"            , emit: bam
-    path "*.log"            , emit: log
-    path  "versions.yml"    , emit: versions
+    tuple val(id), path("*.bam")    , emit: bam
+    path "*.log"                    , emit: log
+    path  "versions.yml"            , emit: versions
 
     script:
     """

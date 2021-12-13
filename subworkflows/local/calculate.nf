@@ -1,66 +1,51 @@
-include { COUNT         } from '../../modules/local/count'
-include { MERGE         } from '../../modules/local/merge'
-include { MERGE_SPLIT   } from '../../modules/local/merge_split'
-include { CALC_ZSCORE   } from '../../modules/local/calc_zscore'
-include { CALC_MEDIAN   } from '../../modules/local/calc_median'
+
 
 workflow CALCULATE {
     take:
-    ch_mergeFilter
+    ch_bams
 
     main:
-    // Step 1: Calculate counts for each filtered file
-    COUNT (
-        ch_mergeFilter,
-        params.libType,
-        params.binSize
+    // Step 1: Filter reads, count positions, and assign bins to positions
+    PROCESS_READS (
+        ch_bams,
+        params.filter_mode,
+        params.bin_size
     )
 
-    // Step 2: Merge by Chromosome and output
-    if (params.libType == "10X"){
-        count_merge_list = COUNT.out.count
-            .map { file ->
-                def key = file.name.toString().tokenize('-')[1]
-                return tuple(key, file)
-            }
-            .groupTuple()
-            .collectFile (name: 'all_counts.txt') { id, files ->
-                [
-                    id,
-                    files.collect{ it.toString() }.join('\n') + '\n'
-                ]
-            }
+    // Step 2: Merge into one file
+    counts_file = "counts_${params.run_name}_${params.filter_mode}_${params.binSize}.txt"
 
-        MERGE (
-            count_merge_list,
-            params.runName,
-            "counts",
-            false
+    PROCESS_READS.out.counts
+        .collectFile(
+            name:       "${counts_file}",
+            storeDir:   "${params.outdir}"
         )
-        ch_merged_counts = MERGE.out.merged
-    } else if (params.libType == "SS2") {
-        // If SS2, no need to merge.
-        count_merge_list = COUNT.out.count
-            .collectFile (name: 'all_counts.txt') { file ->
-                file.toString() + '\n'
-            }
-        MERGE_SPLIT (
-            count_merge_list,
-            params.runName,
-            "counts",
-            false
-        )
-        ch_merged_counts = MERGE_SPLIT.out.merged.flatten()
-    }
+        .println{ it.text }
+        .set{ ch_counts }
 
     // Step 2: Calculate zscores
     CALC_ZSCORE (
-        ch_merged_counts,
-        params.zscores_only,
-        params.metadata
+        ch_counts,
+        params.metadata,
+        params.run_name,
+        params.filter_mode,
+        params.bin_size
+    )
+
+    // Step 3: Calculate significant windows
+    CALC_SIGNIF_WINDOWS (
+        CALC_ZSCORE.out.zscores,
+        params.ontology_cols,
+        params.min_cells_per_windowont,
+        params.min_cts_per_cell,
+        params.n_permutations,
+        params.run_name,
+        params.filter_mode,
+        params.bin_size
     )
 
     emit:
-    counts          = ch_merged_counts
+    counts          = ch_counts
     zscores         = CALC_ZSCORE.out.zscore
+    signif_windows  = CALC_SIGNIF_WINDOWS.out.signif_windows
 }
