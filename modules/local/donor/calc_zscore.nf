@@ -14,7 +14,7 @@ process CALC_ZSCORE {
     val bin_size
 
     output:
-    path "*.txt", emit: zscore
+    path "*.txt", emit: zscores
 
     script:
     outfile="zscores_${run_name}_plus_${filter_mode}_${binSize}.txt"
