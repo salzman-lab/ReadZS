@@ -40,9 +40,6 @@ include { READZS_DONOR  } from './workflows/readzs_donor'
 //
 // WORKFLOW: Run main nf-core/readzs analysis pipeline
 //
-workflow NFCORE_READZS {
-    READZS ()
-}
 
 workflow NFCORE_READZS_DONOR {
     READZS_DONOR ()
