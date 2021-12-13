@@ -18,7 +18,7 @@ process CONCAT_REFS {
     script:
     fasta="reference_${reference_type}_${run_name}.fa"
     """
-    concat_refs.sh \\
+    ./concat_refs.sh \\
         ${reference_samplesheet} \\
         ${fasta}
     """
