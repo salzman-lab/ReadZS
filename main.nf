@@ -60,11 +60,7 @@ workflow NFCORE_READZS_DONOR {
 // See: https://github.com/nf-core/rnaseq/issues/619
 //
 workflow {
-    if (params.single_cell) {
-        NFCORE_READZS ()
-    } else {
-        NFCORE_READZS_DONOR ()
-    }
+    NFCORE_READZS_DONOR ()
 }
 
 /*
