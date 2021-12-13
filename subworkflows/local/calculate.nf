@@ -1,3 +1,6 @@
+include { PROCESS_READS         } from  '../../../modules/local/donor/process_reads'
+include { CALC_ZSCORE           } from  '../../../modules/local/donor/calc_zscore'
+include { CALC_SIGNIF_WINDOWS   } from  '../../../modules/local/donor/calc_signif_windows'
 
 
 workflow CALCULATE {
