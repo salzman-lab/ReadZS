@@ -35,7 +35,7 @@ include { GET_SOFTWARE_VERSIONS } from '../modules/local/get_software_versions' 
 //
 // SUBWORKFLOW: Consisting of a mix of local and nf-core/modules
 //
-include { INPUT_CHECK   } from '../subworkflows/local/donor/input_check'
+//include { INPUT_CHECK   } from '../subworkflows/local/donor/input_check'
 include { MAKE_REF      } from '../subworkflows/local/donor/make_ref'
 include { ALIGN         } from '../subworkflows/local/donor/align'
 include { CALCULATE     } from '../subworkflows/local/donor/calculate'
@@ -65,40 +65,35 @@ def multiqc_report = []
 
 workflow READZS_DONOR {
 
-    INPUT_CHECK ()
+    //INPUT_CHECK ()
 
-    if (params.plot_only) {
-        // TODO
-
+    // Generate reference, if needed
+    if (params.reference) {
+        index = file(params.reference)
     } else {
-
-        // Generate reference, if needed
-        if (params.reference) {
-            index = file(params.reference)
-        } else {
-            MAKE_REF ()
-            index = MAKE_REF.out.index.first()
-        }
-
-        // Align fastqs to reference
-        ALIGN (
-            index
-        )
-        ch_bams = ALIGN.out.bam
-
-        // // Calculate zscores and significant windows
-        // CALCULATE (
-        //     ch_bams
-        // )
-
-        // // Plot significant windows
-        // if (!params.skip_plot) {
-        //     PLOT (
-        //         CALCULATE.out.signif_medians
-        //     )
-        // }
-
+        MAKE_REF ()
+        index = MAKE_REF.out.index.first()
     }
+
+    // Align fastqs to reference
+    ALIGN (
+        index
+    )
+    ch_bams = ALIGN.out.bam
+
+    // // Calculate zscores and significant windows
+    // CALCULATE (
+    //     ch_bams
+    // )
+
+    // // Plot significant windows
+    // if (!params.skip_plot) {
+    //     PLOT (
+    //         CALCULATE.out.signif_medians
+    //     )
+    // }
+
+
 
 }
 
