@@ -72,7 +72,7 @@ workflow READZS_DONOR {
         index = file(params.reference)
     } else {
         MAKE_REF ()
-        index = MAKE_REF.out.index.first()
+        index = MAKE_REF.out.index
     }
 
     // Align fastqs to reference
