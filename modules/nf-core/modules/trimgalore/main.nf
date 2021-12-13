@@ -1,5 +1,5 @@
 process TRIMGALORE {
-    tag "$meta.id"
+    tag "id"
     label 'process_high'
 
     conda (params.enable_conda ? 'bioconda::trim-galore=0.6.7' : null)
