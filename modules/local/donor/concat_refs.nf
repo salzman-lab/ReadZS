@@ -18,8 +18,19 @@ process CONCAT_REFS {
     script:
     fasta="reference_${reference_type}_${run_name}.fa"
     """
-    ./concat_refs.sh \\
-        ${reference_samplesheet} \\
-        ${fasta}
+    rm -rf ${fasta}
+    while read line
+    do
+        id=$(echo "\${line}" | awk '{print \$1}')
+        file=$(echo "\${line}" | awk '{print \$2}')
+        ext="\${file##*.}"
+
+        if [[ "\${ext}" == "gz" ]]
+        then
+            zcat "\${file}" | sed 's/>/>"\${id}"_/g' >> ${fasta}
+        else
+            sed 's/>/>"\${id}"_/g' ${file} >> ${fasta}
+        fi
+    done < ${reference_samplesheet}
     """
 }
