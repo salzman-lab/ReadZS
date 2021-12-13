@@ -23,7 +23,7 @@ workflow CALCULATE {
             name:       "${counts_file}",
             storeDir:   "${params.outdir}"
         )
-        .println{ it.text }
+        .view{ it.text }
         .set{ ch_counts }
 
     // Step 2: Calculate zscores
