@@ -1,4 +1,4 @@
-include { BOWTIE2_ALIGN } from  '../../modules/nf-core/modules/bowtie2/align/main'
+include { BOWTIE2_ALIGN } from  '../../../modules/nf-core/modules/bowtie2/align/main'
 
 workflow ALIGN {
     take:
