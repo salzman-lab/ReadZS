@@ -13,24 +13,13 @@ process CONCAT_REFS {
 
 
     output:
-    path "${ref_file}"  , emit: fasta
+    path "${fasta}", emit: fasta
 
     script:
-    ref_file="reference_${reference_type}_${run_name}.fa"
+    fasta="reference_${reference_type}_${run_name}.fa"
     """
-    rm -rf ${ref_file}
-    while read line
-    do
-        id=$(echo \${line} | awk '{print \$1}')
-        file=$(echo \${line} | awk '{print \$2}')
-        ext="\${file##*.}"
-
-        if [[ "\${ext}" == "gz" ]]
-        then
-            zcat \${file} | sed "s/>/>\${id}_/g" >> ${ref_file}
-        else
-            sed "s/>/>\${id}_/g" \${file} >> ${ref_file}
-        fi
-    done < ${reference_samplesheet}
+    concat_refs.sh \\
+        ${reference_samplesheet} \\
+        ${fasta}
     """
 }
