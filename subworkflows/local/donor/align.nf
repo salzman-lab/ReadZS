@@ -16,11 +16,11 @@ workflow ALIGN {
         }
 
     // STEP 2: Align fastqs
-    ALIGN (
+    BOWTIE2_ALIGN (
         ch_fastqs,
         index
     )
 
     emit:
-    bam = ALIGN.out.bam
+    bam = BOWTIE2_ALIGN.out.bam
 }
