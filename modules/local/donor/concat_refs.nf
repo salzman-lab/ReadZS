@@ -23,14 +23,8 @@ process CONCAT_REFS {
     do
         id="\$(echo "\${line}" | awk '{print \$1}')"
         file="\$(echo "\${line}" | awk '{print \$2}')"
-        ext="\${file##*.}"
 
-        if [[ "\${ext}" == "gz" ]]
-        then
-            zcat "\${file}" | sed 's/>/>"\${id}"_/g' >> ${fasta}
-        else
-            sed 's/>/>"\${id}"_/g' "\${file}" >> ${fasta}
-        fi
+        zcat "\${file}" | sed "s/>/>\${id}_/g" >> ${fasta}
     done < ${reference_samplesheet}
     """
 }
