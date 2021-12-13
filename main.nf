@@ -33,7 +33,9 @@ WorkflowMain.initialise(workflow, params, log)
 ========================================================================================
 */
 
-include { READZS } from './workflows/readzs'
+include { READZS        } from './workflows/readzs'
+include { READZS_DONOR  } from './workflows/readzs_donor'
+
 
 //
 // WORKFLOW: Run main nf-core/readzs analysis pipeline
@@ -41,6 +43,11 @@ include { READZS } from './workflows/readzs'
 workflow NFCORE_READZS {
     READZS ()
 }
+
+workflow NFCORE_READZS_DONOR {
+    READZS_DONOR ()
+}
+
 
 /*
 ========================================================================================
@@ -53,7 +60,11 @@ workflow NFCORE_READZS {
 // See: https://github.com/nf-core/rnaseq/issues/619
 //
 workflow {
-    NFCORE_READZS ()
+    if (params.single_cell) {
+        NFCORE_READZS ()
+    } else {
+        NFCORE_READZS_DONOR ()
+    }
 }
 
 /*

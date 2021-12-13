@@ -3,6 +3,12 @@
     "homePage": "https://github.com/nf-core/readzs",
     "repos": {
         "nf-core/modules": {
+            "bowtie2/align": {
+                "git_sha": "9d0cad583b9a71a6509b754fdf589cbfbed08961"
+            },
+            "bowtie2/build": {
+                "git_sha": "20d8250d9f39ddb05dfb437603aaf99b5c0b2b41"
+            },
             "fastqc": {
                 "git_sha": "ab67a1d41b63bf52fd7c147f7f8f6e8d167590b5"
             },
@@ -17,6 +23,9 @@
             },
             "samtools/sort": {
                 "git_sha": "43c27792583b3db3faedf189adea48939e300cf2"
+            },
+            "trimgalore": {
+                "git_sha": "9d0cad583b9a71a6509b754fdf589cbfbed08961"
             }
         }
     }
