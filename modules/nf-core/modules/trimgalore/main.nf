@@ -30,7 +30,7 @@ process TRIMGALORE {
         if (cores > 4) cores = 4
     }
     """
-    [ ! -f  ${id}.fastq.gz ] && ln -s $reads ${prefiidx}.fastq.gz
+    [ ! -f  ${id}.fastq.gz ] && ln -s $reads ${id}.fastq.gz
     trim_galore \\
         --cores $cores \\
         --gzip \\
