@@ -33,7 +33,6 @@ WorkflowMain.initialise(workflow, params, log)
 ========================================================================================
 */
 
-include { READZS        } from './workflows/readzs'
 include { READZS_DONOR  } from './workflows/readzs_donor'
 
 
