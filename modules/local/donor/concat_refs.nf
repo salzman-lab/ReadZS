@@ -24,7 +24,7 @@ process CONCAT_REFS {
         id="\$(echo "\${line}" | cut -d, -f1)"
         file="\$(echo "\${line}" | cut -d, -f2)"
 
-        zcat "\${file}" | sed "s/>/>\$id_/g" >> ${fasta}
+        zcat "\${file}" | sed "s/>/>\${id}_/g" >> ${fasta}
     done < ${reference_samplesheet}
     """
 }
