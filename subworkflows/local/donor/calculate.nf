@@ -49,6 +49,6 @@ workflow CALCULATE {
 
     emit:
     counts          = ch_counts
-    zscores         = CALC_ZSCORE.out.zscore
+    zscores         = CALC_ZSCORE.out.zscores
     signif_windows  = CALC_SIGNIF_WINDOWS.out.signif_windows
 }
