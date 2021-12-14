@@ -21,7 +21,8 @@ workflow CALCULATE {
     PROCESS_READS.out.counts
         .collectFile(
             name:       "${counts_file}",
-            storeDir:   "${params.outdir}"
+            storeDir:   "${params.outdir}",
+            keepHeader: true
         ) { file ->
             file.collect{ it.text }.join('\n') + '\n'
         }
