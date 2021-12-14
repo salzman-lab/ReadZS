@@ -15,8 +15,8 @@ process PROCESS_READS {
     path "*.txt"   , emit: counts
 
     script:
-    outfile_plus="counts_${id}_plus_${filter_mode}_${binSize}.txt"
-    outfile_minus="counts_${id}_minus_${filter_mode}_${binSize}.txt"
+    outfile_plus="counts_${id}_plus_${filter_mode}_${bin_size}.txt"
+    outfile_minus="counts_${id}_minus_${filter_mode}_${bin_size}.txt"
     """
     process_reads.py \\
         --bam ${bam} \\
