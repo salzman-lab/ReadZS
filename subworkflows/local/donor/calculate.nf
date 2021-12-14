@@ -23,7 +23,7 @@ workflow CALCULATE {
             name:       "${counts_file}",
             storeDir:   "${params.outdir}"
         ) { file ->
-            file.collect{ it.toString() }.join('\n') + '\n'
+            file.collect{ it.text }.join('\n') + '\n'
         }
         .set{ ch_counts }
 
