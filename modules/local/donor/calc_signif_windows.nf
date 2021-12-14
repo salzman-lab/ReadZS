@@ -8,7 +8,7 @@ process CALC_SIGNIF_WINDOWS {
 
     input:
     path zscores
-    val ontology ontology_cols
+    val ontology_cols
     val min_cells_per_windowont
     val min_cts_per_cell
     val n_permutations
