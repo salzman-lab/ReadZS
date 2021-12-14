@@ -22,7 +22,9 @@ workflow CALCULATE {
         .collectFile(
             name:       "${counts_file}",
             storeDir:   "${params.outdir}"
-        )
+        ) { file ->
+            file.collect{ it.toString() }.join('\n') + '\n'
+        }
         .set{ ch_counts }
 
     // Step 2: Calculate zscores
