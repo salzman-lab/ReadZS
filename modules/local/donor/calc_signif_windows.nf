@@ -21,8 +21,8 @@ process CALC_SIGNIF_WINDOWS {
     path "signif_medians*"  , emit: signif_windows
 
     script:
-    outfile="medians_${run_name}_plus_${filter_mode}_${binSize}_${min_cells_per_windowont}_minCellsPerWindowont_${min_cts_per_cell}_minCtsPerCell.txt"
-    outfile_signif="signif_medians_${run_name}_plus_${filter_mode}_${min_cells_per_windowont}_minCellsPerWindowont_${min_cts_per_cell}_minCtsPerCell.txt"
+    outfile="medians_${run_name}_plus_${filter_mode}_${bin_size}_${min_cells_per_windowont}_minCellsPerWindowont_${min_cts_per_cell}_minCtsPerCell.txt"
+    outfile_signif="signif_medians_${run_name}_plus_${filter_mode}_${bin_size}_${min_cells_per_windowont}_minCellsPerWindowont_${min_cts_per_cell}_minCtsPerCell.txt"
     """
     calc_signif_windows.R \\
         ${zscores} \\

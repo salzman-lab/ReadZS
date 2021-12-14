@@ -17,7 +17,7 @@ process CALC_ZSCORE {
     path "*.txt", emit: zscores
 
     script:
-    outfile="zscores_${run_name}_plus_${filter_mode}_${binSize}.txt"
+    outfile="zscores_${run_name}_plus_${filter_mode}_${bin_size}.txt"
     """
     calc_zscore_donor.R \\
         ${counts} \\
