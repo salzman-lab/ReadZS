@@ -14,7 +14,7 @@ workflow PLOT {
         zscores,
         signif_windows,
         params.bin_size,
-        params.ont_cols,
+        params.ontology_cols,
         params.n_genes
     )
 
