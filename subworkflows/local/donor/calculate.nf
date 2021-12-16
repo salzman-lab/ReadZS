@@ -19,7 +19,7 @@ workflow CALCULATE {
     counts_file = "counts_${params.run_name}_${params.filter_mode}_${params.binSize}.txt"
 
     PROCESS_READS.out.counts
-        .collectFile(
+        .collectFile (
             name:       "${counts_file}",
             storeDir:   "${params.outdir}",
             keepHeader: true
@@ -28,7 +28,7 @@ workflow CALCULATE {
         }
         .set{ ch_counts }
 
-    // Step 2: Calculate zscores
+    // Step 3: Calculate zscores
     CALC_ZSCORE (
         ch_counts,
         params.metadata,
@@ -37,7 +37,7 @@ workflow CALCULATE {
         params.bin_size
     )
 
-    // Step 3: Calculate significant windows
+    // Step 4: Calculate significant windows
     CALC_SIGNIF_WINDOWS (
         CALC_ZSCORE.out.zscores,
         params.ontology_cols,

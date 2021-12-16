@@ -86,12 +86,14 @@ workflow READZS_DONOR {
         ch_bams
     )
 
-    // // Plot significant windows
-    // if (!params.skip_plot) {
-    //     PLOT (
-    //         CALCULATE.out.signif_medians
-    //     )
-    // }
+    // Plot significant windows
+    if (!params.skip_plot) {
+        PLOT (
+            CALCULATE.out.counts,
+            CALCULATE.out.zscores,
+            CALCULATE.out.signif_medians
+        )
+    }
 
 
 

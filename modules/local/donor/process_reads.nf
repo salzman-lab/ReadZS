@@ -3,9 +3,6 @@ process PROCESS_READS {
 
     label 'process_medium'
 
-    publishDir "${params.outdir}",
-    mode: 'copy'
-
     input:
     tuple val(id), path(bam)
     val filter_mode
