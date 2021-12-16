@@ -91,7 +91,7 @@ workflow READZS_DONOR {
         PLOT (
             CALCULATE.out.counts,
             CALCULATE.out.zscores,
-            CALCULATE.out.signif_medians
+            CALCULATE.out.signif_windows
         )
     }
 
