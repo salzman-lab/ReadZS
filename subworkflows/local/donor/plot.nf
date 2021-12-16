@@ -18,12 +18,10 @@ workflow PLOT {
         params.n_genes
     )
 
-    // Step 2: Make plots
-    MAKE_PNG (
-        MAKE_PLOTTERFILE.out.plotterfiles.flatten(),
-        params.ont_cols
-    )
-
-    emit:
+    // // Step 2: Make plots
+    // MAKE_PNG (
+    //     MAKE_PLOTTERFILE.out.plotterfiles.flatten(),
+    //     params.ont_cols
+    // )
 
 }
