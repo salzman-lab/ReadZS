@@ -39,7 +39,7 @@ include { GET_SOFTWARE_VERSIONS } from '../modules/local/get_software_versions' 
 include { MAKE_REF      } from '../subworkflows/local/donor/make_ref'
 include { ALIGN         } from '../subworkflows/local/donor/align'
 include { CALCULATE     } from '../subworkflows/local/donor/calculate'
-//include { PLOT          } from '../subworkflows/local/donor/plot'
+include { PLOT          } from '../subworkflows/local/donor/plot'
 
 /*
 ========================================================================================
