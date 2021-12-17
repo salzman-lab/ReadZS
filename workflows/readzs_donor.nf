@@ -72,7 +72,7 @@ workflow READZS_DONOR {
 
     // Align fastqs to reference
     ALIGN (
-        index
+        MAKE_REF.out.index
     )
     ch_bams = ALIGN.out.bam
 
