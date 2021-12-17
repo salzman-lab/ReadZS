@@ -68,12 +68,7 @@ workflow READZS_DONOR {
     //INPUT_CHECK ()
 
     // Generate reference, if needed
-    if (params.reference) {
-        index = file(params.reference)
-    } else {
-        MAKE_REF ()
-        index = MAKE_REF.out.index
-    }
+    MAKE_REF ()
 
     // Align fastqs to reference
     ALIGN (

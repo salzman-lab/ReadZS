@@ -3,9 +3,15 @@ include { TRIMGALORE    } from  '../../../modules/nf-core/modules/trimgalore/mai
 
 workflow ALIGN {
     take:
-    index
 
     main:
+    if (params.reference) {
+        index = file(params.reference)
+    } else {
+        MAKE_REF ()
+        index = MAKE_REF.out.index
+    }
+
     // Step 1: Parse fastq samplesheet
     ch_fastqs = Channel.fromPath(params.fastq_samplesheet)
         .splitCsv(header: false)

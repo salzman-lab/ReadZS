@@ -4,15 +4,20 @@ include { BOWTIE2_BUILD } from  '../../../modules/nf-core/modules/bowtie2/build/
 workflow MAKE_REF {
     take:
 
-    main:
-    // STEP 1: Make reference file
-    CONCAT_REFS (
-        params.reference_samplesheet,
-        params.reference_type,
-        params.run_name
-    )
+    main:å
+    // STEP 0: Make reference file
+    if (params.reference) {
+        fasta = file(params.reference)
+    } else {
+        CONCAT_REFS (
+            params.reference_samplesheet,
+            params.reference_type,
+            params.run_name
+        )
+        fasta = CONCAT_REFS.out.fasta
+    }
 
-    // STEP 2: Build bowtie2 reference
+    // STEP 1: Build bowtie2 reference
     BOWTIE2_BUILD (
         CONCAT_REFS.out.fasta
     )
