@@ -16,7 +16,7 @@ process MAKE_PLOTTERFILE {
 
     script:
     """
-    donor/make_plotterfile.R \\
+    make_plotterfile.R \\
         ${significant_windows} \\
         ${counts} \\
         ${zscores} \\
