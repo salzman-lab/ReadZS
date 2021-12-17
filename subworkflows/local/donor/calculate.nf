@@ -22,7 +22,8 @@ workflow CALCULATE {
         .collectFile (
             name:       "${counts_file}",
             storeDir:   "${params.outdir}",
-            keepHeader: true
+            keepHeader: true,
+            skip:       1
         ) { file ->
             file
                 .collect{ it.text }

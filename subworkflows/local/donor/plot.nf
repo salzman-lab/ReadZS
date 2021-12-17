@@ -12,16 +12,16 @@ workflow PLOT {
     MAKE_PLOTTERFILE (
         counts,
         zscores,
-        signif_windows,
+        signif_windows.filter{ it.size()>0 },
         params.bin_size,
         params.ontology_cols,
         params.n_genes
     )
 
-    // // Step 2: Make plots
-    // MAKE_PNG (
-    //     MAKE_PLOTTERFILE.out.plotterfiles.flatten(),
-    //     params.ont_cols
-    // )
+    // Step 2: Make plots
+    MAKE_PNG (
+        MAKE_PLOTTERFILE.out.plotterfiles.flatten(),
+        params.ontology_cols
+    )
 
 }
