@@ -4,7 +4,7 @@ include { BOWTIE2_BUILD } from  '../../../modules/nf-core/modules/bowtie2/build/
 workflow MAKE_REF {
     take:
 
-    main:å
+    main:
     // STEP 0: Make reference file
     if (params.reference) {
         fasta = file(params.reference)
