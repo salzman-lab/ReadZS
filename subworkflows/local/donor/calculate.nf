@@ -24,7 +24,9 @@ workflow CALCULATE {
             storeDir:   "${params.outdir}",
             keepHeader: true
         ) { file ->
-            file.collect{ it.text }.join('\n')
+            file
+                .collect{ it.text }
+                .join('\n')
         }
         .set{ ch_counts }
 
