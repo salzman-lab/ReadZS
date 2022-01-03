@@ -168,7 +168,7 @@ compare_table[, perm_p_val := 2 * min(cdf_perm, (1 - cdf_perm)), by=window]  # c
 ## Benjamini-Hochberg correction: combine both the windows where permutation was done, and the windows where it wasn't done.
 all_pvals1 <- setNames(unique(compare_table[, list(window, perm_p_val)]), c("window", "pval"))
 all_pvals2 <- copy(z_table)
-all_pvals2 <- real_ont_labels[chi2_p_val >= alpha_value,] 
+all_pvals2 <- all_pvals2[chi2_p_val >= alpha_value,] 
 all_pvals2 <- setNames(unique(all_pvals2[, list(window, chi2_p_val)]), c("window", "pval"))
 all_pvals_table <- rbind(all_pvals1, all_pvals2)
 num_tests <- nrow(unique(all_pvals_table[, window]))  # number of tests = how many permutation p-values were calculated
