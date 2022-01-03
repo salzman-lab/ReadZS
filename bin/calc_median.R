@@ -113,7 +113,7 @@ print("Finished making z_table.")
 
 
 
-## For windows with ch^2 p-val < 0.05, permute the ontology labels of the cells and calculate test statistic that way.
+## For windows with chi^2 p-val < 0.05, permute the ontology labels of the cells and calculate test statistic that way.
 
 real_ont_labels <- copy(z_table)
 real_ont_labels <- real_ont_labels[chi2_p_val < alpha_value,]  # select only windows w/ chi^2 p-value less than 0.05
@@ -165,9 +165,9 @@ compare_table[, cdf_perm := (sum(scr_less_than_real)) / n_permutations, by=windo
 compare_table[, perm_p_val := 2 * min(cdf_perm, (1 - cdf_perm)), by=window]  # calculate permutation p=value: 2-sided to quantify whether the real value is extreme in either direction
 
 
-## Benjamini-Hochberg correction:
-compare_table[, num_tests := uniqueN(real_ont_labels), by=window]  # number of tests = how many onts per window
-compare_table[, pval_rank := frank(perm_p_val, ties.method="dense"), by=window]  # assign ranks to p-values, with same rank for the same value
+## Benjamini-Hochberg correction: 
+num_tests <- nrow(unique(compare_table[, window]))  # number of tests = how many permutation p-values were calculated
+compare_table[, pval_rank := frank(perm_p_val, ties.method="dense")]  # assign ranks to p-values, with same rank for the same value
 compare_table[, BH_crit_val := (pval_rank / num_tests) * alpha_value]  # calculate the critical value for each window
 largest_pval <- max(compare_table[perm_p_val < BH_crit_val, ]$perm_p_val)  # among p-values less than corresponding critical value, which one is max
 compare_table[, significant := ifelse(perm_p_val <= largest_pval, TRUE, FALSE)]  # only significant if p-value is less than largest p-value allowed
