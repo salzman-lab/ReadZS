@@ -179,7 +179,7 @@ all_pvals_table[, significant := ifelse(pval <= largest_pval, TRUE, FALSE)]  # o
 
 
 ## Merge table of p-values with table of all medians
-all_pvals_table <- unique(all_pvals_table[, c("window", "p_val", "significant")])  # get unique rows of p-value table
+all_pvals_table <- unique(all_pvals_table[, c("window", "pval", "significant")])  # get unique rows of p-value table
 z_table <- merge(z_table, all_pvals_table, by=c("window"), all.x=T)  # merge p-value table and medians table
 
 ## Remove unnecessary cols and remove duplicate rows
