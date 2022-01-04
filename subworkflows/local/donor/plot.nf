@@ -12,7 +12,7 @@ workflow PLOT {
     MAKE_PLOTTERFILE (
         counts,
         zscores,
-        signif_windows.filter{ it.size()>0 },
+        signif_windows.filter{ it.size()>1 },
         params.bin_size,
         params.ontology_cols,
         params.n_genes
