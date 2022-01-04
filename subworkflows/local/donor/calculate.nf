@@ -24,7 +24,7 @@ workflow CALCULATE {
             storeDir:   "${params.outdir}",
             keepHeader: true,
             skip:       1,
-            cache:      true
+            cache:      'deep'
         ) { file ->
             file
                 .collect{ it.text }
