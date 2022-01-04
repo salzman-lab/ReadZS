@@ -171,7 +171,7 @@ all_pvals2 <- copy(z_table)
 all_pvals2 <- all_pvals2[chi2_p_val >= alpha_value,] 
 all_pvals2 <- setNames(unique(all_pvals2[, list(window, chi2_p_val)]), c("window", "pval"))
 all_pvals_table <- rbind(all_pvals1, all_pvals2)
-num_tests <- nrow(unique(all_pvals_table[, window]))  # number of tests = how many permutation p-values were calculated
+num_tests <- length(unique(all_pvals_table$window))  # number of tests = how many permutation p-values were calculated
 all_pvals_table[, pval_rank := frank(pval, ties.method="dense")]  # assign ranks to p-values, with same rank for the same value
 all_pvals_table[, BH_crit_val := (pval_rank / num_tests) * alpha_value]  # calculate the critical value for each window
 largest_pval <- max(all_pvals_table[pval < BH_crit_val, ]$pval)  # among p-values less than corresponding critical value, which one is max
