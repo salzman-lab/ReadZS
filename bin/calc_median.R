@@ -166,10 +166,10 @@ compare_table[, perm_p_val := 2 * min(cdf_perm, (1 - cdf_perm)), by=window]  # c
 
 
 ## Benjamini-Hochberg correction: combine both the windows where permutation was done, and the windows where it wasn't done.
-all_pvals1 <- setNames(unique(compare_table[, list(window, perm_p_val)]), c("window", "pval"))
-all_pvals2 <- copy(z_table)
-all_pvals2 <- all_pvals2[chi2_p_val >= alpha_value,] 
-all_pvals2 <- setNames(unique(all_pvals2[, list(window, chi2_p_val)]), c("window", "pval"))
+all_pvals1 <- setNames(unique(compare_table[, list(window, perm_p_val)]), c("window", "pval"))  # Make a copy of the windows where permutation p-value was calculated
+all_pvals2 <- copy(z_table)  # Make a copy of ALL the windows...
+all_pvals2 <- all_pvals2[chi2_p_val >= alpha_value,]  # ... then select those where permutation p-value was NOT calculated.
+all_pvals2 <- setNames(unique(all_pvals2[, list(window, chi2_p_val)]), c("window", "pval"))  # Make column names the same so the two tables can be combined together
 all_pvals_table <- rbind(all_pvals1, all_pvals2)
 num_tests <- length(unique(all_pvals_table$window))  # number of tests = how many permutation p-values were calculated
 all_pvals_table[, pval_rank := frank(pval, ties.method="dense")]  # assign ranks to p-values, with same rank for the same value
