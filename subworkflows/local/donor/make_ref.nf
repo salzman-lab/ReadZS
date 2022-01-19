@@ -19,7 +19,7 @@ workflow MAKE_REF {
 
     // STEP 1: Build bowtie2 reference
     BOWTIE2_BUILD (
-        CONCAT_REFS.out.fasta
+        fasta
     )
 
     emit:
