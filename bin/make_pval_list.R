@@ -25,8 +25,7 @@ if (nrow(pvals) > 0) {  # only keep processing files that are not empty
     "sum_counts_per_window_per_ont",
     "med_counts_per_window_per_ont",
     "median_z_scaled",
-    "chi2_p_val",
-    "perm_p_val",
+    "pval",
     "significant",
     "medians_range"
   )
@@ -69,19 +68,16 @@ if (nrow(pvals) > 0) {  # only keep processing files that are not empty
   pval_list <- list()
   for (i in 1:nrow(ann_pvals)){
     target_window <- ann_pvals[i, window]
-    target_chi2 <- unique(pvals[window==target_window, chi2_p_val])
-    target_pval <- unique(pvals[window==target_window, perm_p_val])
-    chi2_list <- c(chi2_list, target_chi2)
+    target_pval <- unique(pvals[window==target_window, pval])
     pval_list <- c(pval_list, target_pval)
   }
-  ann_pvals <- cbind(ann_pvals, unlist(chi2_list))
   ann_pvals <- cbind(ann_pvals, unlist(pval_list))
-  names(ann_pvals) <- c("window", "rank", "gene", "chr", "start", "end", "strand", "chi2_pval", "perm_pval")
+  names(ann_pvals) <- c("window", "rank", "gene", "chr", "start", "end", "strand", "pval")
 
-  ann_pvals <- ann_pvals[, toString(unique(gene)), by = list(window, rank, chr, start, end, strand, chi2_pval, perm_pval)]
+  ann_pvals <- ann_pvals[, toString(unique(gene)), by = list(window, rank, chr, start, end, strand, pval)]
 
-  names(ann_pvals) <- c("window", "rank", "chr", "start", "end", "strand", "chi2_pval", "perm_pval", "gene")
-  ann_pvals <- ann_pvals[, c("window", "rank", "gene", "chr", "start", "end", "strand", "chi2_pval", "perm_pval")]
+  names(ann_pvals) <- c("window", "rank", "chr", "start", "end", "strand", "pval", "gene")
+  ann_pvals <- ann_pvals[, c("window", "rank", "gene", "chr", "start", "end", "strand", "pval")]
 
   write.table(ann_pvals, outfile_annPvals, sep='\t', row.names=F, col.names=T, quote=F)
 
