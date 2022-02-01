@@ -53,7 +53,7 @@ In addition, references of tools and data used in this pipeline are as follows:
 
 | Argument                | Description     |Example Usage  |
 | -----------             | -----------     |-----------|
-| `runName`               | Descriptive name for ReadZS run, used in the final output files |*Tumor_5* |
+| `runName`               | Descriptive name for ReadZS run, used in the final output files. Note: the run name should not contain any dashes (-). |*Tumor_5* |
 | `input`      | Input samplesheet in csv format, format described below | `Tumor_5_samplesheet.csv` |
 | `useChannels`            | `true` if the same samples were split across multiple lanes with barcode overlap between samples | `true`, `false` |
 | `isSICILIAN`            | If the input bam files are output from [SICILIAN](https://github.com/salzmanlab/SICILIAN)| `true`, `false` |
