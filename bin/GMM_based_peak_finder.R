@@ -4,10 +4,12 @@ if (!require("data.table")) {
   install.packages("data.table", dependencies = TRUE, repos = "http://cran.us.r-project.org")
   library(data.table)
 }
-if (!require("mclust")) {
-  install.packages("mclust", dependencies = TRUE, repos = "http://cran.us.r-project.org")
-  library(mclust)
-}
+# if (!require("mclust")) {
+#   install.packages("mclust", dependencies = TRUE, repos = "http://cran.us.r-project.org")
+#   library(mclust)
+# }
+
+library(mclust)
 
 if (!requireNamespace("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
