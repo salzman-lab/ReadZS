@@ -3,6 +3,7 @@ process CALL_PEAKS {
     mode: 'copy'
 
   label 'process_medium'
+  conda 'conda-forge::r-mclust=5.4.9'
 
   input:
   path all_counts
