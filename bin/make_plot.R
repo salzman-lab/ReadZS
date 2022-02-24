@@ -76,7 +76,8 @@ geneTrack <- GeneRegionTrack(
   chromosome=chr,
   start=window_start,
   end=window_end,
-  fontsize=8,panel.only=TRUE
+  fontsize=8,panel.only=TRUE,
+  options(ucscChromosomeNames=FALSE)
 )
 ranges(geneTrack)$feature <- as.character(ranges(geneTrack)$feature)
 ranges(geneTrack) <- ranges(geneTrack)[ranges(geneTrack)$feature!="transcript"]
