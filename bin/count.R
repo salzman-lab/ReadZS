@@ -92,7 +92,7 @@ if (nrow(data) > 0) {  # if the input file is empty, don't do any of this.
 
     ## Create bin from position
     if (geneVersion == T) {
-       data <- data[, bin := get_bin_gene(pos, binSize, chr, strand_label, libType, gene_bed_path)] 
+       data <- data[, bin := get_bin_genes(pos, binSize, chr, strand_label, libType, gene_bed_path)] 
     } else {
        data <- data[, bin := get_bin(pos, binSize, chr, strand_label)]
     }
@@ -114,7 +114,7 @@ if (nrow(data) > 0) {  # if the input file is empty, don't do any of this.
 
     ## Create bin from position
     if (geneVersion == T) {
-       data <- data[, bin := get_bin_gene(pos, binSize, chr, strand_label, libType, gene_bed_path)] 
+       data <- data[, bin := get_bin_genes(pos, binSize, chr, strand_label, libType, gene_bed_path)] 
     } else {
        data <- data[, bin := get_bin(pos, binSize, chr, strand_label)]
     }
