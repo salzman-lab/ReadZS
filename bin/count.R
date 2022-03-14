@@ -39,7 +39,7 @@ get_bin_genes <- function(pos_list, binSize, chrom_list, strand, libraryType, be
   for(i in 1:length(pos_list)){
     pos <- as.numeric(pos_list[i])
     chrom <- chrom_list[i]
-    gene_name <- gene_locs[(gene_locs[, (chr == chrom) & (start <= pos) & (pos <= end), gene]
+    gene_name <- gene_locs[(chr == chrom) & (start <= pos) & (pos <= end), gene][[1]]  # pick first gene if there are several
     if (libraryType == "10X") {
        bins[[i]] <- paste(chrom, gene_name, strand, sep="_") # include strand in bin name for 10X
     } else if (libraryType == "SS2") {
