@@ -16,13 +16,22 @@ input_file <- args[1]
 ont_cols <- args[2]
 gff_path <- args[3]
 
+geneVersion <- T
+
+
+
 ont_cols <- unlist(strsplit(ont_cols, ", "))
 gen = "hg38"
 data <-fread(input_file, header=T)
 
 chr <- unique(data$chromosome)
-window_start <- unique(data$window_start)
-window_end <- unique(data$window_end)
+if (geneVersion ==T) {
+  window_start <- min(data$pos_round)
+  window_end <- max(data$pos_round)
+} else {
+  window_start <- unique(data$window_start)
+  window_end <- unique(data$window_end)
+}
 
 data <- data[, ontology:=Reduce(function(...) paste(..., sep="___"), .SD[, mget(ont_cols)])]
 data <- data[, z_label := paste("Median Z-Score = ", round(median_z_scaled, 3), sep="")]
