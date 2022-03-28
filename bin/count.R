@@ -17,8 +17,8 @@ binSize <- as.numeric(args[4])
 ## To put into arguments eventually...
 geneVersion <- T
 #gene_bed_path <- "/scratch/groups/horence/Elisabeth/intron_zscore/Arabidopsis/ref_files/Arabidopsis_3UTR_forReadZS.tsv"
-gene_bed_path <- "/scratch/groups/horence/Elisabeth/intron_zscore/Arabidopsis/ref_files/Arabidopsis_genes_forReadZS.tsv"
-
+#gene_bed_path <- "/scratch/groups/horence/Elisabeth/intron_zscore/Arabidopsis/ref_files/Arabidopsis_genes_forReadZS.tsv"
+gene_bed_path <- "/oak/stanford/groups/horence/rob/isoform_localizations/SRRS/inputs/kidney_liver_genes.bed"
 
 
 ## Function to get bin (genomic window) from position, strand, and chromsome
