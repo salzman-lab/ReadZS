@@ -32,19 +32,20 @@ get_bin <- function(pos, binSize, chr, strand)
 
 
 ## Function adapted from Rob Bierman to create bins from a bed file of genes (or UTRs, or other annotations)
-get_bin_genes <- function(pos_list, binSize, chrom_list, strand, libraryType, bed_path)
+get_bin_genes <- function(pos_list, binSize, chrom_list, bin_strand, libraryType, bed_path)
 {
   gene_locs <- fread(bed_path)
   bins <- vector("list", length(pos_list))
   for(i in 1:length(pos_list)){
     pos <- as.numeric(pos_list[i])
     chrom <- chrom_list[i]
-    gene_name <- gene_locs[(chr == chrom) & (start <= pos) & (pos <= end), gene]
+    strand_symbol <- ifelse(bin_strand == "plus", "+", "-")
+    gene_name <- gene_locs[(chr == chrom) & (start <= pos) & (pos <= end) & (strand = strand_symbol), gene]
     if (length(gene_name) > 1) {  # pick first gene if there are several
        gene_name <- gene_name[[1]]
     }
     if (libraryType == "10X") {
-       bins[[i]] <- paste(chrom, gene_name, strand, sep="_") # include strand in bin name for 10X
+       bins[[i]] <- paste(chrom, gene_name, bin_strand, sep="_") # include strand in bin name for 10X
     } else if (libraryType == "SS2") {
        bins[[i]] <- paste(chrom, gene_name, sep="_") # don't include strand in bin name for SS2 since it is unstranded
     }
