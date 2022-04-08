@@ -40,7 +40,7 @@ get_bin_genes <- function(pos_list, binSize, chrom_list, bin_strand, libraryType
     pos <- as.numeric(pos_list[i])
     chrom <- chrom_list[i]
     strand_symbol <- ifelse(bin_strand == "plus", "+", "-")
-    gene_name <- gene_locs[(chr == chrom) & (start <= pos) & (pos <= end) & (strand = strand_symbol), gene]
+    gene_name <- gene_locs[(chr == chrom) & (start <= pos) & (pos <= end) & (strand == strand_symbol), gene]
     if (length(gene_name) > 1) {  # pick first gene if there are several
        gene_name <- gene_name[[1]]
     }
