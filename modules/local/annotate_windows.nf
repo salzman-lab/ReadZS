@@ -17,7 +17,7 @@ process ANNOTATE_WINDOWS {
   if (isCellranger)
     """
     bedtools makewindows -g ${chr_lengths} -w ${binSize} -i srcwinnum |
-      awk -v OFS='\t' '{print "chr"\$1,\$2,\$3,"chr"\$4, ".", "+"}' |
+      awk -v OFS='\t' '{print \$1,\$2,\$3,\$4, ".", "+"}' |
       sort -k1,1 -k2,2n > windows.file
     bedtools intersect -a windows.file -b ${annotation_bed} -loj -wa |
       awk -v OFS='\t' '{print \$1,\$2,\$3,\$4,\$10}' |
