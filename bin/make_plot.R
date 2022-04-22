@@ -1,14 +1,18 @@
 #!/usr/bin/env Rscript
 if (!require("data.table")) {
-  install.packages("data.table", dependencies = TRUE, repos = "http://cran.us.r-project.org")
+  install.packages("data.table", dependencies = TRUE)
   library(data.table)
 }
-if (!requireNamespace("BiocManager", quietly = TRUE))
+
+if (!require("Gviz")) {
+  if (!requireNamespace("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
 
-if (!requireNamespace("BiocManager", quietly = TRUE))
-    BiocManager::install("Gviz")
+  BiocManager::install("Gviz")
+  library(Gviz)
+}
 
+library(data.table)
 library(Gviz)
 
 args <- commandArgs(TRUE)
