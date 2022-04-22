@@ -8,6 +8,10 @@ if (!require("tidyr")) {
   install.packages("tidyr", dependencies = TRUE, repos = "http://cran.us.r-project.org")
   library(tidyr)
 }
+if (!require("stringr")) {
+  install.packages("stringr", dependencies = TRUE, repos = "http://cran.us.r-project.org")
+  library(tidyr)
+}
 
 args <- commandArgs(TRUE)
 all_pvals <- args[1]
@@ -29,6 +33,12 @@ if (nrow(pvals) > 0) {  # only keep processing files that are not empty
     "significant",
     "medians_range"
   )
+
+  # If SS2 i.e. no strand info in annotation file, remove strand info from windows
+  if (!(strand %in% names(genes))) {
+    pvals[, window := str_replace(window, "_minus", "")]
+    pvals[, window := str_replace(window, "_plus", "")]
+  }
 
   pvals <- pvals[, max_med := max(median_z_scaled), by=window]
   pvals <- pvals[, min_med := min(median_z_scaled), by=window]

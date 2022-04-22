@@ -6,7 +6,6 @@ process ANNOTATE_WINDOWS {
   conda 'bioconda::bedtools=2.30.0'
   input:
   val libType
-  val isCellranger
   path chr_lengths
   path annotation_bed
   val binSize
