@@ -2,7 +2,7 @@
 process PLOTTERFILE {
   publishDir "${params.outdir}/plotter_files",
     mode: 'copy'
-  label 'process_medium'
+  label 'process_high'
 
   input:
   path all_pvals
