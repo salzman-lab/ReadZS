@@ -10,7 +10,7 @@ if (!require("data.table")) {
 # }
 
 library(mclust)
-if (!requireNamespace("BiocManager", quietly = TRUE))
+if (!requireNamespace("BiocManager", quietly = TRUE), repos = "http://cran.us.r-project.org")
     install.packages("BiocManager")
 BiocManager::install("SamSPECTRAL")
 library(SamSPECTRAL)
