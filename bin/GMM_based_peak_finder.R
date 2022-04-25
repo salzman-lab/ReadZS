@@ -4,14 +4,14 @@ if (!require("data.table")) {
   install.packages("data.table", dependencies = TRUE, repos = "http://cran.us.r-project.org")
   library(data.table)
 }
+
 if (!require("mclust")) {
   install.packages("mclust", dependencies = TRUE, repos = "http://cran.us.r-project.org")
   library(mclust)
 }
 
-library(mclust)
-if (!requireNamespace("BiocManager", quietly = TRUE), repos = "http://cran.us.r-project.org")
-    install.packages("BiocManager")
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager", repos = "http://cran.us.r-project.org")
 BiocManager::install("SamSPECTRAL")
 library(SamSPECTRAL)
 
