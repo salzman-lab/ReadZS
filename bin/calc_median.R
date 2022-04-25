@@ -47,9 +47,7 @@ z_table <- fread(input_file, header=T)
 
 ## Create ontology groupings based on columns in argument
 ontology_cols = unlist(strsplit(ontology_cols, ", "))
-#col_names <- c('cell_id', 'chrom', 'read_strand', 'window', 'channel', 'z_scaled', 'count')
-#col_names <- c(col_names, ontology_cols)
-#names(z_table) <- col_names
+
 
 z_table[is.na(z_table)] <- "ANNOTATE_NA"
 z_table <- z_table %>% unite('ontology', c(all_of(ontology_cols)), sep="___", remove=FALSE)
@@ -89,9 +87,6 @@ z_table <- z_table[num_of_onts > 1,]
 z_table[, sum_counts_per_window_per_ont := sum(count), by=c("window","ontology")] # Add column to aggregate(sum) counts per window per ontology
 z_table[, med_counts_per_window_per_ont := median(count), by=c("window","ontology")] # Add column to aggregate(median) counts per window per ontology
 z_table <- z_table[, c("has_ann", "cells_per_window", "percent_annotated", "total_count", "num_of_onts") := NULL]  # Remove extra columns
-
-
-
 
 
 ## Calculate chi^2 p-value. First step in Romano p-value approach

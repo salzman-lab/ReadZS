@@ -34,11 +34,6 @@ if (nrow(pvals) > 0) {  # only keep processing files that are not empty
     "medians_range"
   )
 
-  # If SS2 i.e. no strand info in annotation file, remove strand info from windows
-  if (!("strand" %in% names(genes))) {
-    pvals[, window := str_replace(window, "_minus", "")]
-    pvals[, window := str_replace(window, "_plus", "")]
-  }
 
   pvals <- pvals[, max_med := max(median_z_scaled), by=window]
   pvals <- pvals[, min_med := min(median_z_scaled), by=window]

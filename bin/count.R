@@ -12,11 +12,15 @@ libType <- args[3]
 binSize <- as.numeric(args[4])
 
 ## Function to get bin from position, strand, and chromsome
-get_bin <- function(pos, binSize, chr, strand)
+get_bin <- function(pos, binSize, chr, strand, libraryType)
 {
   pos <- as.numeric(pos)
   bin_num <- ceiling(pos/binSize)
-  bin <- paste(chr, bin_num, strand, sep="_")
+  if (libraryType == "10X") {
+    bin <- paste(chr, bin_num, strand, sep="_")
+  } else if (libraryType == "SS2") {
+    bin <- paste(chr, bin_num, sep="_")
+  }
   return(bin)
 }
 
@@ -60,7 +64,7 @@ if (nrow(data) > 0) {  # if the input file is empty, don't do any of this.
     data <- data[, c("cell_id", "chr", "pos", "strand", "count","channel")]
 
     ## Create bin from position
-    data <- data[, bin := get_bin(pos, binSize, chr, strand_label)]
+    data <- data[, bin := get_bin(pos, binSize, chr, strand_label, libType)]
 
     ## Output
     output_file_name <- paste(basename, ".count", sep="")
@@ -78,7 +82,10 @@ if (nrow(data) > 0) {  # if the input file is empty, don't do any of this.
     strand_label <- get_strand(data$strand)
 
     ## Create bin from position
-    data <- data[, bin := get_bin(pos, binSize, chr, strand_label)]
+    data <- data[, bin := get_bin(pos, binSize, chr, strand_label, libType)]
+
+    ## Replace strand_label with NA to indicate that the strand column doesn't convey actual strand info
+    data[, strand_label := NA]
 
     ## Output
     output_file_name <- paste(basename, ".count", sep="")
