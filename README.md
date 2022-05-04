@@ -72,7 +72,7 @@ These default values can be modified to suit the needs of your data.
 | `minCellsPerWindowOnt`  | Minimum cells per window-ontology required to calculate medians for that window-ontology | *20*  |
 | `minCtsPerCell`         | Minimum counts per cell for a window required to include this cell in calculating medians for that window-ontology| *10*  |
 | `nPermutations`         | Number of permutations to be used in median calculation | *1000* |
-| `nGenesToPlot`          | Number of top windows to generate read distribution histograms for| *20* |
+| `numPlots`          | Number of top windows to generate read distribution histograms for| *20* |
 | `peak_method`           | Subclustering method for calling peaks, options: `knee`, `max` | `knee` |
 | `zscores_only`          | Calculate ReadZS values for cells over genomic bins, without annotating cells with cell-types or any downstram analyses. | `false` |
 | `skip_plot`             | Run all steps of pipeline, except for plot generation of read distributions. | `false` |
@@ -102,7 +102,7 @@ nextflow run salzmanlab/readzs \
 | `ontologyCols	`         | Double-encapsulated list string describing the `metadata` columns that will create the cell-type variable | *"'tissue, compartment, annotation'"* |
 | `gff`                   | Location of genome GFF file, used for plotting; can be obtained from [GENCODE](https://www.gencodegenes.org/human/) | */home/refs/humanv37.gff* |
 | `binSize`               | Size of genomic bins, used to calculate z-scores | **Defaults to 5000**  |
-| `nGenesToPlot`          | Number of top windows to generate read distribution histograms for| **Defaults to 20** |
+| `numPlots`          | Number of top windows to generate read distribution histograms for| **Defaults to 20** |
 
 ## `peaks_only` Parameters
 
