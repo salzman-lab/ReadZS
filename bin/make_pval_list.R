@@ -8,6 +8,10 @@ if (!require("tidyr")) {
   install.packages("tidyr", dependencies = TRUE, repos = "http://cran.us.r-project.org")
   library(tidyr)
 }
+if (!require("stringr")) {
+  install.packages("stringr", dependencies = TRUE, repos = "http://cran.us.r-project.org")
+  library(tidyr)
+}
 
 args <- commandArgs(TRUE)
 all_pvals <- args[1]
@@ -30,15 +34,13 @@ if (nrow(pvals) > 0) {  # only keep processing files that are not empty
     "medians_range"
   )
 
+
   pvals <- pvals[, max_med := max(median_z_scaled), by=window]
   pvals <- pvals[, min_med := min(median_z_scaled), by=window]
   pvals <- pvals[(min_med<0) & (max_med>0),]
 
-  pvals <- pvals[, chr_window := sub("_minus", "", window)]
-  pvals <- pvals[, chr_window := sub("_plus", "", chr_window)]
-
-  genes_only <- genes[, c("gene", "chr_window")]
-  all_pvals <- merge(pvals, genes_only, by="chr_window", all.x=T)
+  genes_only <- genes[, c("gene", "window")]
+  all_pvals <- merge(pvals, genes_only, by="window", all.x=T)
 
   all_pvals <- all_pvals[order(-medians_range),]
 
@@ -54,11 +56,8 @@ if (nrow(pvals) > 0) {  # only keep processing files that are not empty
   windows <- data.table(matrix(unlist(windows), ncol=1, byrow = TRUE))
   names(windows) <- c("window")
   windows$rank <- seq.int(nrow(windows))
-  windows <- windows[, chr_window := sub("_minus", "", window)]
-  windows <- windows[, chr_window := sub("_plus", "", chr_window)]
 
-  ann_pvals <- merge(windows, genes, by="chr_window", all.x=T)
-
+  ann_pvals <- merge(windows, genes, by="window", all.x=T)
   ann_pvals <- ann_pvals[order(rank),]
 
   ann_pvals <- ann_pvals[, strand := ifelse(window %like% "plus", "+", "-")]

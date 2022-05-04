@@ -35,7 +35,7 @@ workflow SIGNIF_WINDOWS {
 
     // Step 3: Annotate windows
     ANNOTATE_WINDOWS (
-        params.isCellranger,
+        params.libType,
         params.chr_lengths,
         params.annotation_bed,
         params.binSize
