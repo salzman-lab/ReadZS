@@ -19,7 +19,8 @@ geneVersion <- T
 #gene_bed_path <- "/scratch/groups/horence/Elisabeth/intron_zscore/Arabidopsis/ref_files/Arabidopsis_3UTR_forReadZS.tsv"
 #gene_bed_path <- "/scratch/groups/horence/Elisabeth/intron_zscore/Arabidopsis/ref_files/Arabidopsis_genes_forReadZS.tsv"
 #gene_bed_path <- "/oak/stanford/groups/horence/rob/isoform_localizations/SRRS/inputs/kidney_liver_genes.bed"
-gene_bed_path <- "~/tables_for_annotation/human_genes_table_for_geneReadZS.tsv"
+#gene_bed_path <- "~/tables_for_annotation/human_genes_table_for_geneReadZS.tsv"
+gene_bed_path <- "/oak/stanford/groups/horence/rob/isoform_localizations/SRRS/preprocessing/KidneyLiver_preprocessing/CZB_UTRs_mm10.bed"
 
 ## Function to get bin (genomic window) from position, strand, and chromsome
 get_bin <- function(pos, binSize, chr, strand)
