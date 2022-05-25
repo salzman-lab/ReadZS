@@ -34,6 +34,25 @@ reject_flags = (
     bit_meanings['supplementary alignment']
 )
 
+# CIGAR meanings
+cigar_meanings = {
+    'alignment match':               0,
+    'insertion to reference':        1,
+    'deletion from reference':       2,
+    'skipped region from reference': 3,
+    'soft clipping':                 4,
+    'hard clipping':                 5,
+    'padding':                       6
+}
+
+reject_cigar = (
+    cigar_meanings['insertion to reference'] |
+    cigar_meanings['deletion from reference'] |
+    cigar_meanings['skipped region from reference'] | 
+    cigar_meanings['hard clipping'] | 
+    cigar_meanings['padding']
+)
+
 
 def get_args():
   parser = argparse.ArgumentParser()
@@ -52,8 +71,9 @@ def pass_filter(read):
     cigar = read.cigar
     mq = read.mapping_quality
     read_length = read.query_length
-    rejectable_flag = read.flag & reject_flags
-    if cigar == [(0, read_length)] and mq == 255 and not rejectable_flag:
+    rejectable_flag = read.flag & reject_flags  # intersection between the read's flags and the not-allowed flags
+    rejectable_cigar = [x[0] for x in cigar] & reject_cigar  # intersection between the operations in the cigar string and the not allowed ones
+    if not rejectable_cigar and mq == 255 and not rejectable_flag:
         return True
 
 def pass_filter_lenient(read):
@@ -109,7 +129,7 @@ def filter_10X(inputChannel, chrName, bamName, bam_file, isSICILIAN, isCellrange
     minus = open(outfile_minus, "w")
 
     for read in bam_file:
-        if pass_filter(read):
+        if pass_filter_lenient(read):
             chr, position, strand = get_read_info(read, bam_file, isCellranger)
             if isSICILIAN:
                 cbc, umi = get_SICILIAN_outs(read)
