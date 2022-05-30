@@ -52,7 +52,7 @@ reject_cigar = (
     cigar_meanings['hard clipping'] | 
     cigar_meanings['padding']
 )
-
+# note: soft-clipping allowed 
 
 def get_args():
   parser = argparse.ArgumentParser()
@@ -129,7 +129,7 @@ def filter_10X(inputChannel, chrName, bamName, bam_file, isSICILIAN, isCellrange
     minus = open(outfile_minus, "w")
 
     for read in bam_file:
-        if pass_filter_lenient(read):
+        if pass_filter(read):
             chr, position, strand = get_read_info(read, bam_file, isCellranger)
             if isSICILIAN:
                 cbc, umi = get_SICILIAN_outs(read)
