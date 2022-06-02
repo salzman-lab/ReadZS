@@ -46,7 +46,7 @@ In addition, references of tools and data used in this pipeline are as follows:
             -latest \
             -profile small_test_data,sherlock
 
-3. To run on other datasets, modify a config file with data-specific parameters, using `conf/test.config` as a template. You may need to modify the [executor scope](https://www.nextflow.io/docs/latest/executor.html) in the config file, in accordance to your compute needs.
+3. To run on other datasets, modify a config file with data-specific parameters, using `conf/test.config` as a template. **Note: do not include dashes in the run names or channel names.** You may need to modify the [executor scope](https://www.nextflow.io/docs/latest/executor.html) in the config file, in accordance to your compute needs.
 
 
 # Input Arguments
@@ -87,6 +87,7 @@ Example run command:
 ```
 nextflow run salzmanlab/readzs \
     --plot_only true \
+    --input Tumor_5_samplesheet.csv \
     --all_pvals_path *home/results/results/annotated_files/`${runName}`_all_pvals.txt* \
     --resultsDir *home/results* \
     --runName Tumor5 \
@@ -96,6 +97,7 @@ nextflow run salzmanlab/readzs \
 
 | Argument                | Description     | Example Usage  |
 | -----------             | -----------     |-----------|
+| `input`      | Input samplesheet in csv format, format described below | `Tumor_5_samplesheet.csv` |
 | `all_pvals_path`        | Path to all_pvals file, containing a `windows` column. | *home/results/results/annotated_files/`${runName}`_all_pvals.txt* |
 | `resultsDir`            | Path to results directory of previous run. | *home/results*  |
 | `runName`               | Descriptive name for ReadZS run, used in the final output files |*Tumor_5* |
@@ -111,6 +113,7 @@ Example run command:
 ```
 nextflow run salzmanlab/readzs \
     --peaks_only true \
+    --input Tumor_5_samplesheet.csv \
     --counts_path home/results/counts \
     --ann_pvals_path home/results/results/annotated_files/`${runName}`_ann_pvals.txt \
     --runName Tumor5
@@ -118,6 +121,7 @@ nextflow run salzmanlab/readzs \
 
 | Argument                | Description     | Example Usage  |
 | -----------             | -----------     |-----------|
+| `input`      | Input samplesheet in csv format, format described below | `Tumor_5_samplesheet.csv` |
 | `counts_path`           | Path to results directory for counts files. | *home/results/counts* |
 | `ann_pvals_path`        | Path to ann_pvals file. | *home/results/results/annotated_files/`${runName}`_ann_pvals.txt* |
 | `runName`               | Descriptive name for ReadZS run, used in the final output files |*Tumor_5* |
