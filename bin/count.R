@@ -16,7 +16,7 @@ get_bin <- function(pos, binSize, chr, strand, libraryType)
 {
   pos <- as.numeric(pos)
   bin_num <- ceiling(pos/binSize)
-  if (libraryType == "10X") {
+  if ((libraryType == "10X") | (libraryType == "bulk")) {
     bin <- paste(chr, bin_num, strand, sep="_")
   } else if (libraryType == "SS2") {
     bin <- paste(chr, bin_num, sep="_")
@@ -86,6 +86,24 @@ if (nrow(data) > 0) {  # if the input file is empty, don't do any of this.
 
     ## Replace strand_label with NA to indicate that the strand column doesn't convey actual strand info
     data[, strand := NA]
+
+    ## Output
+    output_file_name <- paste(basename, ".count", sep="")
+    write.table(data, output_file_name, col.names=FALSE, row.names=FALSE, sep = "\t", quote=FALSE)
+
+  } else if (libType == "bulk")
+  {
+    names(data) <- c('cell_id', 'strand', 'chr', 'pos', 'channel')
+
+    # Get counts at each position
+    data <- data[, count := .N, by=.(pos, cell_id, channel, strand)]
+    data <- data[, c("cell_id", "chr", "pos", "strand", "count", "channel")]  # the "cell id" column actually contains the channel
+
+     # Get the strand label for the bin
+    strand_label <- get_strand(data$strand)
+
+    ## Create bin from position
+    data <- data[, bin := get_bin(pos, binSize, chr, strand_label, libType)]
 
     ## Output
     output_file_name <- paste(basename, ".count", sep="")

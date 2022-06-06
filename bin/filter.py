@@ -102,6 +102,16 @@ def write_out_SS2(inputChannel, strand, chr, position, outfile):
     outfile.write(line + '\n')
     return None
 
+def write_out_bulk(inputChannel, strand, chr, position, plus, minus):
+    out = [inputChannel, strand, chr, position, inputChannel]
+    line = ' '.join(str(x) for x in out)
+    if strand == "+":
+        plus.write(line + '\n')
+    else:
+        minus.write(line + '\n')
+    return None
+
+
 def filter_10X(inputChannel, chrName, bamName, bam_file, isSICILIAN, isCellranger):
     outfile_plus = inputChannel + "-" + chrName + "-plus-" + bamName + ".filter"
     outfile_minus = inputChannel + "-" + chrName + "-minus-" + bamName + ".filter"
@@ -132,6 +142,23 @@ def filter_SS2(inputChannel, bamName, bam_file, isCellranger):
             write_out_SS2(inputChannel, strand, chr, position, out)
     out.close()
     return None
+
+
+def filter_bulk(inputChannel, chrName, bamName, bam_file):
+    outfile_plus = inputChannel + "-" + chrName + "-plus-" + bamName + ".filter"
+    outfile_minus = inputChannel + "-" + chrName + "-minus-" + bamName + ".filter"
+    plus = open(outfile_plus, "w")
+    minus = open(outfile_minus, "w")
+
+    for read in bam_file:
+        if pass_filter(read):
+            chr, position, strand = get_read_info(read, bam_file, False)  # bulk is never Cellranger
+            write_out_bulk(inputChannel, strand, chr, position, plus, minus)
+    plus.close()
+    minus.close()
+    return None
+
+
 
 def main():
     args = get_args()
@@ -164,6 +191,8 @@ def main():
         filter_10X(inputChannel, chrName, bamName, bam_file, isSICILIAN, isCellranger)
     elif libType == "SS2":
         filter_SS2(inputChannel, bamName, bam_file, isCellranger)
+    elif libType == "bulk":
+        filter_bulk(inputChannel, chrName, bamName, bam_file, isCellranger)
 
 main()
 
