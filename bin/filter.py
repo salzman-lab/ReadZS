@@ -53,7 +53,7 @@ def pass_filter(read):
     mq = read.mapping_quality
     read_length = read.query_length
     rejectable_flag = read.flag & reject_flags
-    if cigar == [(0, read_length)] and mq == 255 and not rejectable_flag:
+    if cigar == [(0, read_length)] and not rejectable_flag:
         return True
 
 def pass_filter_lenient(read):
@@ -192,7 +192,11 @@ def main():
     elif libType == "SS2":
         filter_SS2(inputChannel, bamName, bam_file, isCellranger)
     elif libType == "bulk":
-        filter_bulk(inputChannel, chrName, bamName, bam_file, isCellranger)
+        if "chr" not in args.chr:
+            chrName = "chr" + args.chr
+        else:
+            chrName = args.chr
+        filter_bulk(inputChannel, chrName, bamName, bam_file)
 
 main()
 

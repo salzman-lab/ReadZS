@@ -105,6 +105,9 @@ if (nrow(data) > 0) {  # if the input file is empty, don't do any of this.
     ## Create bin from position
     data <- data[, bin := get_bin(pos, binSize, chr, strand_label, libType)]
 
+    ## Replace strand_label with NA to indicate that the strand column doesn't convey actual strand info
+    data[, strand := NA]
+
     ## Output
     output_file_name <- paste(basename, ".count", sep="")
     write.table(data, output_file_name, col.names=FALSE, row.names=FALSE, sep = "\t", quote=FALSE)

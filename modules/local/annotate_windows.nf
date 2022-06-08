@@ -14,7 +14,7 @@ process ANNOTATE_WINDOWS {
   path "annotated_windows.file",   emit: annotated_windows
 
   script:
-  if (params.libType == 'SS2')
+  if (params.libType == 'SS2' | params.libType == 'bulk')
     """
     bedtools makewindows -g ${chr_lengths} -w ${binSize} -i srcwinnum |
       awk -v OFS='\t' '{print \$0, ".", "+"}' |

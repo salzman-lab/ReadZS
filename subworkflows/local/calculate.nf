@@ -17,7 +17,7 @@ workflow CALCULATE {
     )
 
     // Step 2: Merge by Chromosome and output
-    if (params.libType == "10X"){
+    if (params.libType == "10X" | params.libType == "bulk"){
         count_merge_list = COUNT.out.count
             .map { file ->
                 def key = file.name.toString().tokenize('-')[1]

@@ -38,7 +38,7 @@ workflow PREPROCESS {
     }
 
     // Step 3: Preprocess data with sorting and filtering
-    if (params.libType == "10X") {
+    if (params.libType == "10X" | params.libType == "bulk") {
         PREPARE_10X (
             ch_input,
             ch_chrs
