@@ -6,19 +6,8 @@
 ## different median Z-scores in different ontologies. Outputs a table of all windows with
 ## calculable median Z scores, and a table of only the significant windows.
 
-if (!require("data.table")) {
-  install.packages("data.table", dependencies = TRUE, repos = "http://cran.us.r-project.org")
-  library(data.table)
-}
-if (!require("tidyr")) {
-  install.packages("tidyr", dependencies = TRUE, repos = "http://cran.us.r-project.org")
-  library(tidyr)
-}
-if (!require("PEIP")) {
-  install.packages("PEIP", dependencies = TRUE, repos = "http://cran.us.r-project.org")
-  library(PEIP)
-}
-
+library(data.table)
+library(tidyr)
 library(PEIP)
 
 ### Newest version 4.22.21

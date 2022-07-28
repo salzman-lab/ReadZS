@@ -1,9 +1,13 @@
 process ANNOTATE_WINDOWS {
-  label 'process_medium'
-  publishDir "${params.outdir}/annotated_files",
+    label 'process_medium'
+    publishDir "${params.outdir}/annotated_files",
     mode: 'copy'
 
-  conda 'bioconda::bedtools=2.30.0'
+    conda (params.enable_conda ? "bioconda::bedtools=2.30.0" : null)
+    container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
+        'https://depot.galaxyproject.org/singularity/bedtools:2.30.0--h7d7f7ad_1' :
+        'quay.io/biocontainers/bedtools:2.30.0--h7d7f7ad_1' }"
+
   input:
   val libType
   path chr_lengths
@@ -12,6 +16,7 @@ process ANNOTATE_WINDOWS {
 
   output:
   path "annotated_windows.file",   emit: annotated_windows
+
 
   script:
   if (params.libType == 'SS2')
