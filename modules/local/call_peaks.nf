@@ -3,7 +3,8 @@ process CALL_PEAKS {
     mode: 'copy'
 
   label 'process_medium'
-  conda (params.enable_conda ? 'conda-forge::r-mclust=5.4.9' : null)
+  container 'kaitlinchaung/readzs_small:v0.1'
+
 
   input:
   path all_counts
