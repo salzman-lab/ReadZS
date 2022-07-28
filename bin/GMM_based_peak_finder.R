@@ -1,32 +1,5 @@
 #!/usr/bin/env Rscript
 
-if (!require("data.table")) {
-  install.packages("data.table", dependencies = TRUE)
-  library(data.table)
-}
-
-if (!require("mclust")) {
-  install.packages("mclust", dependencies = TRUE)
-  library(mclust)
-}
-
-if (!require("SamSPECTRAL")) {
-  if (!requireNamespace("BiocManager", quietly = TRUE))
-    install.packages("BiocManager")
-
-  BiocManager::install("SamSPECTRAL")
-  library(SamSPECTRAL)
-}
-
-if (!require("inflection")) {
-  install.packages("inflection", dependencies = TRUE)
-  library(inflection)
-}
-
-if (!require("R.utils")) {
-  install.packages("R.utils", dependencies = TRUE)
-  library(R.utils)
-}
 
 library(data.table)
 library(mclust)

@@ -1,9 +1,7 @@
 #!/usr/bin/env Rscript
 
-if (!require("data.table")) {
-  install.packages("data.table", dependencies = TRUE, repos = "http://cran.us.r-project.org")
-  library(data.table)
-}
+library(data.table)
+
 
 args <- commandArgs(TRUE)
 

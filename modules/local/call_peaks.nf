@@ -3,7 +3,7 @@ process CALL_PEAKS {
     mode: 'copy'
 
   label 'process_medium'
-  conda 'conda-forge::r-mclust=5.4.9'
+  conda (params.enable_conda ? 'conda-forge::r-mclust=5.4.9' : null)
 
   input:
   path all_counts

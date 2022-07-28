@@ -1,16 +1,4 @@
 #!/usr/bin/env Rscript
-if (!require("data.table")) {
-  install.packages("data.table", dependencies = TRUE)
-  library(data.table)
-}
-
-if (!require("Gviz")) {
-  if (!requireNamespace("BiocManager", quietly = TRUE))
-    install.packages("BiocManager")
-
-  BiocManager::install("Gviz")
-  library(Gviz)
-}
 
 library(data.table)
 library(Gviz)
@@ -101,8 +89,8 @@ plotTracks(
   fontcolor.title="black",
   type='a',
   legend=TRUE,
-  cex.legend=.8,
-  cex.title=1.5
+  cex.legend=.6,
+  cex.title=1
 )
 
 dev.off()
