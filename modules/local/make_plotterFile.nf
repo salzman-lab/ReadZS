@@ -3,6 +3,7 @@ process PLOTTERFILE {
   publishDir "${params.outdir}/plotter_files",
     mode: 'copy'
   label 'process_high_memory'
+  container 'kaitlinchaung/gviz:v0.1'
 
   input:
   path all_pvals
