@@ -13,7 +13,7 @@ outfile_annPvals <- args[4]
 
 genes <- fread(gene_windows, header=T)
 
-pvals <- fread(all_pvals, header=T)
+pvals <- fread(all_pvals, header=F)
 if (nrow(pvals) > 0) {  # only keep processing files that are not empty
   names(pvals) <- c(
     "window",
@@ -26,9 +26,9 @@ if (nrow(pvals) > 0) {  # only keep processing files that are not empty
     "medians_range"
   )
 
-
-  pvals <- pvals[, max_med := max(median_z_scaled), by=window]
-  pvals <- pvals[, min_med := min(median_z_scaled), by=window]
+  # Filter: only windows with min(median) < 0 and max(median) > 0
+  pvals[, max_med := max(median_z_scaled), by=window]
+  pvals[, min_med := min(median_z_scaled), by=window]
   pvals <- pvals[(min_med<0) & (max_med>0),]
 
   genes_only <- genes[, c("gene", "window")]
