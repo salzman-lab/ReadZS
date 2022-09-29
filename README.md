@@ -19,10 +19,10 @@ This pipeline uses code and infrastructure developed and maintained by the [nf-c
 1. Filter and quantify read enrichment from BAM files
 2. Calculate the ReadZS (read z-score) for single cells across genomic bins
 3. Downstream analyses
-    a. Aggregate the ReadZS along cell type annotations and identify windows with significant cell type-specific regulation
-    b. Plot read distributions for cell types in windows of interest
-    c. Perform GMM-based subclustering to identify peaks in read distributions
-    d. Annotate peaks with distances to annotated features
+    1. Aggregate the ReadZS along cell type annotations and identify windows with significant cell type-specific regulation
+    2. Plot read distributions for cell types in windows of interest
+    3.  Perform GMM-based subclustering to identify peaks in read distributions
+    4.  Annotate peaks with distances to annotated features
 
 
 
