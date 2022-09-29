@@ -215,7 +215,7 @@ If you would like to contribute to this pipeline, please see the [contributing g
 <!-- TODO nf-core: Add bibliography of tools and data used in your pipeline -->
 An extensive list of references for the tools used by the pipeline can be found in the [`CITATIONS.md`](CITATIONS.md) file.
 
-You can cite the `nf-core` publication as follows:
+You can cite ReadZS as follows:
 
 > **ReadZS detects developmentally regulated RNA processing programs in single cell RNA-seq and defines subpopulations independent of gene expression**
 >
