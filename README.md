@@ -2,7 +2,7 @@
 # Introduction
 
 <!-- TODO nf-core: Write a 1-2 sentence summary of what data the pipeline is for and what it does -->
-**salzmanlab/readzs** is a bioinformatics best-practice analysis pipeline for The Read Z-score (ReadZS), a metric that summarizes the transcriptional state of a gene in a single cell. About the ReadZS: doi.org/10.1101/2021.09.29.462469
+**salzmanlab/readzs** is a bioinformatics best-practice analysis pipeline for The Read Z-score (ReadZS), a metric that summarizes the transcriptional state of a gene in a single cell. [About the ReadZS](https://doi.org/10.1101/2021.09.29.462469)
 
 This pipeline uses code and infrastructure developed and maintained by the [nf-core](https://nf-co.re) community, reused here under the [MIT license](https://github.com/nf-core/tools/blob/master/LICENSE).
 > **The nf-core framework for community-curated bioinformatics pipelines.**
