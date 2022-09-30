@@ -27,14 +27,16 @@ This pipeline uses code and infrastructure developed and maintained by the [nf-c
 
 
 # Quick Start
-1. Install [`nextflow`](https://nf-co.re/usage/installation) (`>=20.04.0`) and [`conda`](https://docs.conda.io/en/latest/).
+1. Install [`nextflow`](https://nf-co.re/usage/installation) (`>=20.04.0`)
 
-2. Run the pipeline on test data.
+2. Depending on your use case, install [`conda`](https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html#regular-installation), [`docker`](https://www.docker.com/), or [`singularity`](https://sylabs.io/guides/3.5/user-guide/introduction.html). By using the `docker` or `singularity` nextflow profile, the pipeline can be run within the ReadZS docker container (also available on [dockerhub](https://hub.docker.com/repository/docker/kaitlinchaung/readzs), which contains all the required dependencies.
+
+3. Run the pipeline on test data.
     ```bash
     nextflow run salzmanlab/readzs \
         -r master \
         -latest \
-        -profile small_test_data
+        -profile small_test_data,<docker,singularity,conda>
     ```
 
     Stanford [Sherlock](https://www.sherlock.stanford.edu/) users should use the `sherlock` profile:
@@ -44,7 +46,7 @@ This pipeline uses code and infrastructure developed and maintained by the [nf-c
             -latest \
             -profile small_test_data,sherlock
 
-3. To run on other datasets, modify a config file with data-specific parameters, using `conf/test.config` as a template. **Note: do not include dashes in the run names or channel names.** You may need to modify the [executor scope](https://www.nextflow.io/docs/latest/executor.html) in the config file, in accordance to your compute needs.
+4. To run on other datasets, modify a config file with data-specific parameters, using `conf/test.config` as a template. **Note: do not include dashes in the run names or channel names.** You may need to modify the [executor scope](https://www.nextflow.io/docs/latest/executor.html) in the config file, in accordance to your compute needs.
 
 
 
@@ -172,7 +174,7 @@ The metadata gives additional information about each cell, to be used for calcul
 * Peaks (peaks in read distributions across ALL cells, as determined by the GMM):
     * `results/${runName}/peaks/${runName}_${peak_method}_peaks.tsv`
         * Peaks called for each significant window, with one peak per line
-* Plots (histograms of read distributions, grouped by ontology): 
+* Plots (histograms of read distributions, grouped by ontology):
     * `results/${runName}/plots/*.png`
         * Read distributions of the top 2 and bottom ontologies of each significant window, as ranked by effect size
 
